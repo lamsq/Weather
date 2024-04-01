@@ -18,8 +18,19 @@ public class Main {
         System.out.println("City: " + cwd.getCityName());
         
         // printing the max./min. temperature
-        System.out.println("Temperature: " + cwd.getMainData().getTempMax()
-                            + "/" + cwd.getMainData().getTempMin() + "\'K");
+        System.out.println("Temperature: " + cwd.getMainData().getTempMax() + "/" + cwd.getMainData().getTempMin() + "\'K");
+        
+        System.out.println(cwd.getMainData().getTemp());
+        System.out.println(cwd.getMainData().getTempKf());
+        System.out.println(cwd.getMainData().getSeaLevel());
+        
     }
+	
+	//converts the temperature from K to C	
+	public static double kelvinToCelcius(double kelvin) { 
+		return 99; //returns the converted value
+	}
+	
+	
 
 }
