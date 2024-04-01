@@ -12,7 +12,7 @@ public class Main {
         OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
 
         // getting current weather data for the chosen city
-        CurrentWeather cwd = owm.currentWeatherByCityName("Dublin");
+        CurrentWeather cwd = owm.currentWeatherByCityName("Berlin");
 
         //printing city name from the retrieved data
         System.out.println("City: " + cwd.getCityName());
@@ -20,15 +20,11 @@ public class Main {
         // printing the max./min. temperature
         System.out.println("Temperature: " + cwd.getMainData().getTempMax() + "/" + cwd.getMainData().getTempMin() + "\'K");
         
-        System.out.println(cwd.getMainData().getTemp());
-        System.out.println(cwd.getMainData().getTempKf());
-        System.out.println(cwd.getMainData().getSeaLevel());
-        
     }
 	
 	//converts the temperature from K to C	
 	public static double kelvinToCelcius(double kelvin) { 
-		return 99; //returns the converted value
+		return Math.round((kelvin-273.15)*100)/100; //returns the converted value rounded to 2 decimals
 	}
 	
 	

@@ -36,11 +36,11 @@ class TestTemperature {
 		
 		//creating an object
 		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
-		CurrentWeather cwd = owm.currentWeatherByCityName("Dublin");
+		CurrentWeather cwd = owm.currentWeatherByCityName("Berlin");
 	    //assigns the result of a method execution
 	    double actual = Main.kelvinToCelcius(cwd.getMainData().getTemp()); 
 	    //expected value
-	    double expected = 44;
+	    double expected = 10;
 	    //comparing two values
 	    assertEquals(actual, expected, 0.3);
 		
