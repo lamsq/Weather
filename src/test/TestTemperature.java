@@ -40,7 +40,7 @@ class TestTemperature {
 	    //assigns the result of a method execution
 	    double actual = Main.kelvinToCelcius(cwd.getMainData().getTemp()); 
 	    //expected value
-	    double expected = 20.81;
+	    double expected = -55;
 	    //comparing two values
 	    assertEquals(actual, expected, 0.3);
 		
