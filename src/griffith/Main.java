@@ -8,11 +8,11 @@ public class Main {
 	
 	public static void main(String[] args) throws APIException {
             
-        // declaring object of "OWM" class
-        OWM owm = new OWM("YOUR-API-KEY-HERE");
+        // declaring object of "OWM" class with the API key
+        OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
 
-        // getting current weather data for the "London" city
-        CurrentWeather cwd = owm.currentWeatherByCityName("London");
+        // getting current weather data for the chosen city
+        CurrentWeather cwd = owm.currentWeatherByCityName("Dublin");
 
         //printing city name from the retrieved data
         System.out.println("City: " + cwd.getCityName());
