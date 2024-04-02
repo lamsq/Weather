@@ -1,3 +1,4 @@
+//git checkout UnitTest
 package griffith;
 
 import net.aksingh.owmjapis.api.APIException;
@@ -23,6 +24,5 @@ public class Main {
         //Actual temperature
         System.out.println("Temp: "+cwd.getMainData().getTemp());
     }	
-	
 
 }
