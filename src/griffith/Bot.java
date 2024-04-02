@@ -19,4 +19,23 @@ public class Bot {
 	}
 	
 	
+	public String clothesSuggestion(double temp) {
+		if(temp < -10){
+            return "Too cold, don't go outside";
+        }else if(temp <= 0 && temp > -10){
+            return "Wear jacket and sweater";
+        }else if(temp <= 10 && temp > 0){
+            return "Wear jacket";
+        }else if(temp <= 20 && temp > 10){
+            return "Wear hoodie";
+        }else if(temp <= 30 && temp > 20){
+            return "Wear t-shirt";
+        }else if(temp > 30){
+            return "Too hot, don't go outside";
+        }
+        	
+        return null;
+    }
+	
+	
 }
