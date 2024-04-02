@@ -25,5 +25,7 @@ public class Main {
         System.out.println("Temp: "+cwd.getMainData().getTemp());
     }	
 	
-	
+	public String clothesSuggestion(String city) {
+        return null;
+    }
 }
