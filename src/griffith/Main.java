@@ -25,5 +25,5 @@ public class Main {
         System.out.println("Temp: "+cwd.getMainData().getTemp());
     }	
 	
-
+	
 }
