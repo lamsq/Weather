@@ -1,4 +1,3 @@
-//git checkout UnitTest
 package griffith;
 
 import net.aksingh.owmjapis.api.APIException;
