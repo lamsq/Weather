@@ -11,7 +11,10 @@ public class Main {
 	public static void main(String[] args) throws APIException {
             
         // declaring object of "OWM" class with the API key
-        OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
+
+
+		
+		
         owm.setUnit(Unit.METRIC);
         
         // getting current weather data for the chosen city
@@ -23,6 +26,7 @@ public class Main {
         
         //Actual temperature
         System.out.println("Temp: "+cwd.getMainData().getTemp());
+       
     }	
 
 }
