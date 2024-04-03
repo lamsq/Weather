@@ -53,4 +53,6 @@ Outfit according to the temperature+:
 
 -The user can choose the specific time in the City  for the certain date (within the next 5 days due to free API key limitations) he needs to choose the outfit for (e.g Berlin 28.05 12:00).
 
+<h2>Source used:</h2>
+OWM-JAPIs: https://github.com/iamashks/OWM-JAPIs
 
