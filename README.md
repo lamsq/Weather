@@ -1,8 +1,9 @@
+<h2>Project description:</h2>
 Сhatbot helps you to arrange the outfit according to the current weather or weather forecast.
 
 It works by getting the current/forecast weather object and returning the appropriate clothes for the chosen city on a specific date.
 
-Chatbot logic for clothes suggestions:
+<h3>Chatbot logic for clothes suggestions:</h3>
 
 <b>Temperature</b> (basic outfit):
 <ul>
@@ -15,30 +16,36 @@ Chatbot logic for clothes suggestions:
 <li>above +20: Shorts+t-shirt+sandals</li>
 </ul>
 
-<ul>
 <b>Clouds</b> (additional):
 Outfit according to the temperature+:
+<ul>
 <li>cloudy (t>0): optional/no headwear</li>
 <li>sunny (t>0): headwear+sunglasses</li>
 <li>sunny (t>15): light headwear+sunglasses</li>
 </ul>
 
 
-Wind (additional):
+<b>Wind</b> (additional):
 Outfit according to the temperature+:
-windy(): 
+<ul>
+<li>windy(): </li>
 TODO (outfit for windy weather)
+</ul>
 
-Rain (additional):
+<b>Rain</b> (additional):
 Outfit according to the temperature+:
-rainy: Raincoat/umbrella
+<ul>
+<li>rainy: Raincoat/umbrella</li>
 TODO (outfit for rainy weather)
+</ul>
 
-UV index (additional):
+<b>UV index</b> (additional):
 Outfit according to the temperature+:
-high: Sunscreen 
+<ul>
+<li>high: Sunscreen </li>
+</ul>
 
-The further development goals:
+<h2>The further development goals:</h2>
 
 -The user can send the period (within the next 5 days due to free API key limitations) he’s going to stay in the chosen area and the bot will send back the appropriate outfit for every day.
 
