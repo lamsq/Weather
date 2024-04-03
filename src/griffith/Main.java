@@ -23,6 +23,7 @@ public class Main {
         
         //Actual temperature
         System.out.println("Temp: "+cwd.getMainData().getTemp());
+       
     }	
 
 }

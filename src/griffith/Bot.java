@@ -1,8 +1,17 @@
 package griffith;
 
+import net.aksingh.owmjapis.core.OWM;
+import net.aksingh.owmjapis.model.CurrentWeather;
+
 public class Bot {
 	//Attribute
+	private OWM cwd;
 	private double temp;
+	private double cloud;
+	private double wind;
+	private double uv;
+	
+	
 	
 	//constructor
 	public Bot(double temp) {
