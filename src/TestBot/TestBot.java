@@ -8,7 +8,7 @@ import griffith.Bot;
 
 public class TestBot {
 	@Test
-	void testClothesSuggestion() {
+	void testOutfitTemp() {
 		//Create Bot object with initialize temp as 0
 		Bot bot = new Bot(0);
 		

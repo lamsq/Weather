@@ -43,7 +43,7 @@ public class Bot {
 	}
 	
 	
-	public String clothesSuggestion(double temp) {
+	public String outfitTemp(double temp) {
 		if(temp < -10){
             return "Too cold, don't go outside";
         }else if(temp <= 0 && temp > -10){
