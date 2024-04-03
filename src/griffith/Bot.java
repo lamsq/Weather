@@ -11,7 +11,7 @@ import net.aksingh.owmjapis.model.param.Rain;
 import net.aksingh.owmjapis.model.param.Wind;
 
 public class Bot {
-	//Attribute
+	//Attributes
 	private OWM owm;
 	private double temp;
 	private Cloud cloud;
@@ -19,47 +19,53 @@ public class Bot {
 	private Rain rain;
 	private List<DailyUVIndexForecast> uv;
 	
-	
-	
 	//constructor
-	public Bot(OWM owm) throws APIException {
+	public Bot(OWM owm, String city) throws APIException {
 		this.owm = owm;
-		CurrentWeather cwd = owm.currentWeatherByCityName("Berlin");
+		CurrentWeather cwd = owm.currentWeatherByCityName(city); //current weather object by city name
+		//assigns the attributes values by calling the owm methods
 		this.temp = cwd.getMainData().getTemp();
 		this.cloud = cwd.getCloudData();
 		this.wind = cwd.getWindData();
 		this.rain = cwd.getRainData();
-		this.uv = owm.dailyUVIndexForecastByCoords(0, 0);
+		//gets city coordinates
+		double cityLat = cwd.component4().getLatitude();
+		double cityLon = cwd.component4().getLongitude();
+		//assigns uv index forecast using city coordinates
+		this.uv = owm.dailyUVIndexForecastByCoords(cityLat, cityLon);
 		
 	}
 
-	//Getter and Setter
+	//Getter
 	public double getTemp() {
-		return temp;
-	}
-
-	public void setTemp(double temp) {
-		this.temp = temp;
+		return 0;
 	}
 	
-	
-	public String outfitTemp(double temp) {
-		if(temp < -10){
-            return "Too cold, don't go outside";
-        }else if(temp <= 0 && temp > -10){
-            return "Wear jacket and sweater";
-        }else if(temp <= 10 && temp > 0){
-            return "Wear jacket";
-        }else if(temp <= 20 && temp > 10){
-            return "Wear hoodie";
-        }else if(temp <= 30 && temp > 20){
-            return "Wear t-shirt";
-        }else if(temp > 30){
-            return "Too hot, don't go outside";
-        }
-        	
+	//outfit suggestions method (according to the temperature)
+	public String outfitTemp() {
         return null;
     }
+	
+	//outfit suggestions method (according to the cloudiness)
+	public String outfitCloud() {
+        return null;
+    }
+	
+	//outfit suggestions method (according to the wind)
+	public String outfitWind() {
+        return null;
+    }
+	
+	//outfit suggestions method (according to the rain)
+	public String outfitRain() {
+        return null;
+    }
+	
+	//outfit suggestions method (according to the UV index)
+	public String outfitUV() {
+        return null;
+    }
+	
 	
 	
 }
