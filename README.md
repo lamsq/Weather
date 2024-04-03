@@ -5,13 +5,15 @@ It works by getting the current/forecast weather object and returning the approp
 Chatbot logic for clothes suggestions:
 
 Temperature (basic outfit):
->-20: Thick down jacket+sweatshirt/hoodie/sweater+winter hat+gloves+boots+insulated pants
+<ul>
+<li>below -20: Thick down jacket+sweatshirt/hoodie/sweater+winter hat+gloves+boots+insulated pants</li>
 -20..-10: Down jacket+sweatshirt/hoodie/sweater+winter hat+gloves+boots+insulated pants
 -10..0: Down jacket+sweatshirt/hoodie/sweater+hat+gloves+boots+pants
 0..+10: Jacket+sweatshirt/hoodie/sweater+pants+footwear
 +10..+15: Sweatshirt/hoodie/sweater+pants+footwear
 +15..+20: Pants/shorts+shirt/t-shirt+footwear
->+20: Shorts+t-shirt+sandals
+above +20: Shorts+t-shirt+sandals
+</ul>
 
 Clouds (additional):
 Outfit according to the temperature+:
