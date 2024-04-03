@@ -4,22 +4,25 @@ It works by getting the current/forecast weather object and returning the approp
 
 Chatbot logic for clothes suggestions:
 
-Temperature (basic outfit):
+<b>Temperature</b> (basic outfit):
 <ul>
 <li>below -20: Thick down jacket+sweatshirt/hoodie/sweater+winter hat+gloves+boots+insulated pants</li>
--20..-10: Down jacket+sweatshirt/hoodie/sweater+winter hat+gloves+boots+insulated pants
--10..0: Down jacket+sweatshirt/hoodie/sweater+hat+gloves+boots+pants
-0..+10: Jacket+sweatshirt/hoodie/sweater+pants+footwear
-+10..+15: Sweatshirt/hoodie/sweater+pants+footwear
-+15..+20: Pants/shorts+shirt/t-shirt+footwear
-above +20: Shorts+t-shirt+sandals
+<li>-20..-10: Down jacket+sweatshirt/hoodie/sweater+winter hat+gloves+boots+insulated pants</li>
+<li>-10..0: Down jacket+sweatshirt/hoodie/sweater+hat+gloves+boots+pants</li>
+<li>0..+10: Jacket+sweatshirt/hoodie/sweater+pants+footwear</li>
+<li>+10..+15: Sweatshirt/hoodie/sweater+pants+footwear</li>
+<li>+15..+20: Pants/shorts+shirt/t-shirt+footwear</li>
+<li>above +20: Shorts+t-shirt+sandals</li>
 </ul>
 
-Clouds (additional):
+<ul>
+<b>Clouds</b> (additional):
 Outfit according to the temperature+:
-cloudy (t>0): optional/no headwear
-sunny (t>0): headwear+sunglasses
-sunny (t>15): light headwear+sunglasses
+<li>cloudy (t>0): optional/no headwear</li>
+<li>sunny (t>0): headwear+sunglasses</li>
+<li>sunny (t>15): light headwear+sunglasses</li>
+</ul>
+
 
 Wind (additional):
 Outfit according to the temperature+:
