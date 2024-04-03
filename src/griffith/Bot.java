@@ -38,7 +38,7 @@ public class Bot {
 
 	//Getter
 	public double getTemp() {
-		return 0;
+		return 0.6;
 	}
 	
 	//outfit suggestions method (according to the temperature)
