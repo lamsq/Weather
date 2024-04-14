@@ -8,17 +8,17 @@ import net.aksingh.owmjapis.model.*;
 
 public class Bot {
 	//Attributes
-	private OWM owm;
-	private CurrentWeather cwd;
-	private HourlyWeatherForecast wf;
+	private OWM owm; //openweathermap object
+	private CurrentWeather cwd; //current weather object
+	private HourlyWeatherForecast wfd; //weather forecast object
 	
 	//constructor
 	public Bot(OWM owm, String city) throws APIException {
 		this.owm = owm; //openweathermap object that contains API key
-		cwd = owm.currentWeatherByCityName("Paris"); //current weather object by city name
-		wf = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name	
+		cwd = owm.currentWeatherByCityName(city); //current weather object by city name
+		wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name	
 		
-		System.out.println(owm);
+		this.outfitUV();
 	}
 
 	//Getter for the current temperature
@@ -97,8 +97,17 @@ public class Bot {
 	//outfit suggestions method (according to the UV index)
 	public String outfitUV() throws APIException {
 		
+		double lat, lon; //initialize variables for city coordinates
+		String result =""; //result variable
 		
-        return null;
+		if(cwd.hasCoordData()) { //condition to check if uv data exists
+			lat = cwd.getCoordData().getLatitude(); //assigns the latitude
+			lon = cwd.getCoordData().getLongitude(); //assigns the longitude
+			double uv = owm.currentUVIndexByCoords(lat, lon).getValue(); //assigns the uv index value
+			if(uv>3) //condition if uv is higher than 3
+				result = "Sunscreen"; //offers to use sunscreen
+		}
+        return result; //returns the result
     }
 	
 	
