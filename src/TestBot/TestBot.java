@@ -96,7 +96,7 @@ public class TestBot {
 			expected = "sun glasses";
 		}
 		
-		assertEquals(bot.outfitUV("dublin"), expected);//evaluation of the returned data
+		assertEquals(bot.outfitUV(), expected);//evaluation of the returned data
 		
 	}
 	
