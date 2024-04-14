@@ -22,7 +22,7 @@ public class Bot {
 		this.owm = owm; //openweathermap object that contains API key
 		cwd = owm.currentWeatherByCityName(city); //current weather object by city name
 		wf = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name	
-		
+
 	}
 
 	//Getter for the current temperature
@@ -34,7 +34,7 @@ public class Bot {
 	public String outfitTemp() {
 		
 		double temp = this.getTemp(); //gets current temperature in the chosen city
-		String result; //creates the variable for return statement
+		String result = ""; //creates the variable for return statement
 		
 		if (temp <-20) { //outfit for temperature below -20 degrees
 			result = "Thick down jacket, sweatshirt/hoodie/sweater, winter hat, gloves, boots, insulated pants";
@@ -43,7 +43,7 @@ public class Bot {
 			result ="Down jacket, sweatshirt/hoodie/sweater, winter hat, gloves, boots, insulated pants";
 		}
 		else if(temp>=-10 && temp<0) { //outfit for temperature between -10 and 0 degrees
-			result = "Down jacket, sweatshirt/hoodie/sweater+hat, gloves, boots, pants";
+			result = "Down jacket, sweatshirt/hoodie/sweater, hat, gloves, boots, pants";
 		}
 		else if (temp>=0 && temp<10) { //outfit for temperature between 0 and 10 degrees
 			result = "Jacket, sweatshirt/hoodie/sweater, pants, footwear";
@@ -65,7 +65,21 @@ public class Bot {
 	
 	//outfit suggestions method (according to the cloudiness)
 	public String outfitCloud() {
-        return null;
+		
+		double temp = this.getTemp(); //gets current temperature in the chosen city
+		double cloud = cwd.getCloudData().component1(); //gets current cloud data in the chosen city
+		String result= ""; //creates the variable for return statement
+		
+		if (cloud>80 && temp>=0) { //if clouds more than 80% and temperature equals or above 0
+			result = "optional/no headwear";
+		}
+		else if (cloud<20 && temp>=0) { //if clouds less than 20% and temperature equals or above 0
+			result = "headwear, sunglasses";
+		}
+		else if (cloud<20 && temp>15) { //if clouds less than 20% and temperature above 15
+			result = "light headwear, sunglasses";
+		}
+        return result; //returns the result
     }
 	
 	//outfit suggestions method (according to the wind)
