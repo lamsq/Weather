@@ -28,21 +28,21 @@ Outfit according to the temperature+:
 <b>Wind</b> (additional):
 Outfit according to the temperature+:
 <ul>
-<li>windy(): </li>
-TODO (outfit for windy weather)
+<li>light wind(3.4-5.4 m/s): light windjacket</li>
+<li>moderate wind(5.5-7.9 m/s): windjacket</li>
+<li>strong wind(>8 m/s): windjacket+fleece/sweatshirt</li>
 </ul>
 
 <b>Rain</b> (additional):
 Outfit according to the temperature+:
 <ul>
-<li>rainy: Raincoat/umbrella</li>
-TODO (outfit for rainy weather)
+<li>rain: Rainjacket/umbrella</li>
 </ul>
 
 <b>UV index</b> (additional):
 Outfit according to the temperature+:
 <ul>
-<li>high: Sunscreen </li>
+<li>high (>3): Sunscreen </li>
 </ul>
 
 <h2>The further development goals:</h2>
