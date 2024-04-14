@@ -23,7 +23,9 @@ public class Main {
 	    //Get wind speed by city name
 	    double windSpeed = owm.currentWeatherByCityName("Dublin").getWindData().getSpeed();
 	    
-	    Bot bot = new Bot(owm, "Dublin", windSpeed); //creates the bot object
+	    Bot bot = new Bot(owm, "Dublin"); //creates the bot object
+	    
+	   
 	    
 	    // getting current weather data for the chosen city
 //        CurrentWeather cwd = owm.currentWeatherByCityName("Dublin");

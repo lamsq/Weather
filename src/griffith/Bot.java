@@ -19,7 +19,7 @@ public class Bot {
 	private double windSpeed;
 	
 	//constructor
-	public Bot(OWM owm, String city, double windSpeed) throws APIException {
+	public Bot(OWM owm, String city) throws APIException {
 		this.owm = owm; //openweathermap object that contains API key
 		cwd = owm.currentWeatherByCityName(city); //current weather object by city name
 		wf = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name	
@@ -84,7 +84,8 @@ public class Bot {
     }
 	
 	//outfit suggestions method (according to the wind)
-	public String outfitWind(double windSpeed) {
+	public String outfitWind() throws APIException {
+		
         return null;
     }
 	
