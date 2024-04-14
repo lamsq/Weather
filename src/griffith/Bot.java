@@ -25,9 +25,9 @@ public class Bot {
 		
 	}
 
-	//Getter
+	//Getter for the current temperature
 	public double getTemp() {
-		return 0.6;
+		return cwd.getMainData().getTemp();
 	}
 	
 	//outfit suggestions method (according to the temperature)
