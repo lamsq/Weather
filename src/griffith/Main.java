@@ -30,22 +30,13 @@ public class Main {
 	    // getting current weather data for the chosen city
 //        CurrentWeather cwd = owm.currentWeatherByCityName("Dublin");
 //        
-//        System.out.println(cwd.getWindData().getSpeed());
+//       
         
 //        System.out.println(owm.currentUVIndexByCoords(53.3498, 6.2603).getValue());
         
         
         
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
+	
 	    
 	    
 	    

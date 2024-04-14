@@ -87,10 +87,10 @@ public class Bot {
 	public String outfitWind() throws APIException {
 		//Get wind speed by city name
 	    double windSpeed = owm.currentWeatherByCityName("Dublin").getWindData().getSpeed();
-	    String result = null; //Variable to store output message
+	    String result = ""; //Variable to store output message
 	    
 	    //If wind speed faster than 5, output "light windjacket"
-	    //If wind speed solwer than 5, output null
+	    //If wind speed solwer than 5, output ""
 	    if(windSpeed >= 5) {
 	    	result = "light windjacket";
 	    }
@@ -103,7 +103,9 @@ public class Bot {
     }
 	
 	//outfit suggestions method (according to the UV index)
-	public String outfitUV() {
+	public String outfitUV(String city) throws APIException {
+		
+		
         return null;
     }
 	
