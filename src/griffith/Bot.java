@@ -1,5 +1,7 @@
 package griffith;
 
+import java.util.*;
+
 import net.aksingh.owmjapis.api.APIException;
 import net.aksingh.owmjapis.core.OWM;
 import net.aksingh.owmjapis.model.*;
@@ -15,21 +17,21 @@ public class Bot {
 	//constructor
 	public Bot(OWM owm, String city) throws APIException {
 		this.owm = owm; //openweathermap object that contains API key
-		cwd = owm.currentWeatherByCityName(city); //current weather object by city name
+		
 		wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name	
 		
-		this.outfitUV();
 	}
 
 	//Getter for the current temperature
-	public double getTemp() throws APIException{
+	public double getTemp(String city) throws APIException{
+		cwd = owm.currentWeatherByCityName(city); //current weather object by city name
 		return cwd.getMainData().getTemp(); //returns the value
 	}
 	
 	//outfit suggestions method (according to the temperature)
-	public String outfitTemp() throws APIException{
-		
-		double temp = this.getTemp(); //gets current temperature in the chosen city
+	public String outfitTemp(String city) throws APIException{
+		cwd = owm.currentWeatherByCityName(city); //current weather object by city name
+		double temp = this.getTemp(city); //gets current temperature in the chosen city
 		String result = ""; //creates the variable for return statement
 		
 		if (temp <-20) //outfit for temperature below -20 degrees
@@ -52,10 +54,11 @@ public class Bot {
     }
 	
 	//outfit suggestions method (according to the cloudiness)
-	public String outfitCloud() throws APIException{
+	public String outfitCloud(String city) throws APIException{
+		cwd = owm.currentWeatherByCityName(city); //current weather object by city name
 		String result= ""; //creates the variable for return statement
 		if(cwd.hasCloudData()) { //if there's cloud data
-			double temp = this.getTemp(); //gets current temperature in the chosen city
+			double temp = this.getTemp(city); //gets current temperature in the chosen city
 			double cloud = cwd.getCloudData().component1(); //gets current cloud data in the chosen city
 			if (cloud>80 && temp>=0) //if clouds more than 80% and temperature equals or above 0
 				result = "optional/no headwear";
@@ -68,7 +71,8 @@ public class Bot {
     }
  	
 	//outfit suggestions method (according to the wind)
-	public String outfitWind() throws APIException {
+	public String outfitWind(String city) throws APIException {
+		cwd = owm.currentWeatherByCityName(city); //current weather object by city name
 		String result = ""; //Variable to store output message
 	    if(cwd.hasWindData()) { //if there's wind data
 	    	double wind = cwd.getWindData().getSpeed(); //Get wind speed
@@ -83,7 +87,8 @@ public class Bot {
     }
 	
 	//outfit suggestions method (according to the rain)
-	public String outfitRain() {
+	public String outfitRain(String city) throws APIException {
+		cwd = owm.currentWeatherByCityName(city); //current weather object by city name
 		String result = ""; //Variable to store output message
 		if (cwd.hasRainData()) {
 			double rain = cwd.getRainData().getPrecipVol3h(); //Get wind speed
@@ -95,8 +100,8 @@ public class Bot {
     }
 	
 	//outfit suggestions method (according to the UV index)
-	public String outfitUV() throws APIException {
-		
+	public String outfitUV(String city) throws APIException {
+		cwd = owm.currentWeatherByCityName(city); //current weather object by city name
 		double lat, lon; //initialize variables for city coordinates
 		String result =""; //result variable
 		
@@ -110,6 +115,42 @@ public class Bot {
         return result; //returns the result
     }
 	
+	//converts days to unified date value
+	public Date forecastDate(int days) {
+		return null;
+			
+	}
+	
+	//Getter for the temperature forecast
+	public double[] getTempForecast(String city, Date date) {
+		return null;
+		
+	}
+	
+	//Method to suggest outfit for the temperature forecast
+	public String[] outfitTempForecast(String city, Date period) {
+		return null;
+	}
+		
+	//Method to suggest outfit for the cloud forecast
+	public String[] outfitCloudForecast(String city, Date period) {
+		return null;
+	}
+			
+	//Method to suggest outfit for the wind forecast
+	public String[] outfitWindForecast(String city, Date period) {
+		return null;
+	}	
+		
+	//Method to suggest outfit for the rain forecast
+	public String[] outfitRainForecast(String city, Date period) {
+		return null;
+	}	
+	
+	//Method to suggest outfit for the UV forecast
+	public String[] outfitUVForecast(String city, Date period) {
+		return null;
+	}	
 	
 	
 }
