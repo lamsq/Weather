@@ -7,18 +7,18 @@ import net.aksingh.owmjapis.api.APIException;
 import net.aksingh.owmjapis.core.OWM;
 import net.aksingh.owmjapis.core.OWM.Unit;
 import net.aksingh.owmjapis.model.CurrentWeather;
+import net.aksingh.owmjapis.model.HourlyWeatherForecast;
 import net.aksingh.owmjapis.model.param.Coord;
 
 public class Main {
 	
 	public static void main(String[] args) throws APIException {
 		
-		// declaring object of "OWM" class with the API key
-        OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
+        OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612"); // declaring object of "OWM" class with the API key
         owm.setUnit(OWM.Unit.METRIC); //sets units to metric
         owm.setAccuracy(OWM.Accuracy.ACCURATE); //sets accuracy
     
-	    Scanner input = new Scanner(System.in); //scanner object
+	    Scanner input = new Scanner(System.in); //scanner object for user input
 	    
 	    Bot bot = new Bot(owm, "Dublin"); //creates the bot object
 	    
@@ -27,17 +27,23 @@ public class Main {
 	    String name = "\nMy name is: ";
 	    System.out.println(greeting.concat(name)); 
 	    
-	    name = input.nextLine(); //reassigns the user name
+	    name = input.nextLine(); //reassigns the variable value with the user name
 	    
-	    String intro = "\nNice to meet you, ".concat(name).concat(". Where are you now?\nI am in: "); 
+	    //sets the intro message so the user knows how to interact with the bot and prints the message
+	    String intro = "\nNice to meet you, ".concat(name).concat("."
+	    		+ "\nI can help you to choose the appropriate outfir for the current weather or for the upcoming days!"
+	    		+ "\nJust send me the city name for the current weather or where and when you want to go!\n"); 
 	    System.out.println(intro);
 	    
 	    boolean loop = true; //flag for loop condition
 	    
 	    //main loop to process user inputs
 	    while (loop) {
-      
-	    	String city = input.nextLine(); //assigns the user input 
+	    	
+	    	String choice = input.nextLine();
+	    	
+	    	
+	    	
       
       
       

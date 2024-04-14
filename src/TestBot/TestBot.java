@@ -22,7 +22,19 @@ public class TestBot {
 	}
 	
 	@Test
-	void testGetTemp() throws APIException {
+	void testGetTemp() throws APIException { 
+		//Create Bot object, with Dublin city
+		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
+		Bot bot = new Bot(owm, "Dublin");
+		
+		double expected = 0; //expected temp
+		
+		assertEquals(bot.getTemp(), expected, 0.5); //evaluation of the returned data
+		
+	}
+	
+	@Test
+	void getDateTime() throws APIException {
 		//Create Bot object, with Dublin city
 		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
 		Bot bot = new Bot(owm, "Dublin");
