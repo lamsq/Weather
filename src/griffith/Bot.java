@@ -104,9 +104,29 @@ public class Bot {
 	
 	//outfit suggestions method (according to the UV index)
 	public String outfitUV(String city) throws APIException {
+		double uvOfDublin = owm.currentUVIndexByCoords(53.3498, 6.2603).getValue();
+		double uvOfCork = owm.currentUVIndexByCoords(51.8985, 8.4756).getValue();
+		double uvOfLimerick = owm.currentUVIndexByCoords(52.6638, 8.6267).getValue();
 		
+		String result = ""; //Variable to store output message
+	    double uv = 0; //Variable to store uv value  
 		
-        return null;
+	    //Set uv value by city name
+		if(city.equalsIgnoreCase("dublin")) {
+			uv = uvOfDublin;
+		}else if(city.equalsIgnoreCase("cork")) {
+			uv = uvOfCork;
+		}else if(city.equalsIgnoreCase("limerick")) {
+			uv = uvOfLimerick;
+		}
+
+		//If uv is higher than 4, output "sun glasses"
+	    //If uv is lower than 4, output ""
+		if(uv >= 4) {
+			result = "sun glasses";
+		}
+		
+        return result;
     }
 	
 	

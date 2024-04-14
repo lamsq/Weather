@@ -25,25 +25,6 @@ public class Main {
 	    
 	    Bot bot = new Bot(owm, "Dublin"); //creates the bot object
 	    
-	   
-	    
-	    // getting current weather data for the chosen city
-//        CurrentWeather cwd = owm.currentWeatherByCityName("Dublin");
-//        
-//       
-        
-//        System.out.println(owm.currentUVIndexByCoords(53.3498, 6.2603).getValue());
-        
-        
-        
-	
-	    
-	    
-	    
-	    
-	    
-	    
-	    
 	    //greeting message
 	    String greeting = "Welcome to the SuperWeather chatbot!\nThis bot can help you to decide what to wear!\nWhat is your name?";
 	    String name = "\nMy name is: ";
