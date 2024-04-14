@@ -46,27 +46,27 @@ public class TestBot {
 //		
 //	}
 //	
-//	@Test
-//	void testOutfitWind() throws APIException {
-//		//Create Bot object, with Dublin city
-//		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
-//		Bot bot = new Bot(owm, "Dublin");
-//		
-//		//Get wind speed by city name
-//	    double windSpeed = owm.currentWeatherByCityName("Dublin").getWindData().getSpeed();
-//	    
-//	    String expected = "";//Variable to store string
-//	    
-//	    //If wind speed faster than 5, expected output is "light windjacket"
-//	    //If wind speed solwer than 5, expected output is ""
-//	    if(windSpeed >= 5) {
-//	    	expected = "light windjacket";
-//	    }
-//		
-//		
-//		assertEquals(bot.outfitWind(), expected); //evaluation of the returned data
-//		
-//	}
+	@Test
+	void testOutfitWind() throws APIException {
+		//Create Bot object, with Dublin city
+		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
+		Bot bot = new Bot(owm, "Dublin");
+		
+		//Get wind speed by city name
+	    double windSpeed = owm.currentWeatherByCityName("Dublin").getWindData().getSpeed();
+	    
+	    String expected = "";//Variable to store string
+	    
+	    //If wind speed faster than 5, expected output is "light windjacket"
+	    //If wind speed solwer than 5, expected output is ""
+	    if(windSpeed >= 5) {
+	    	expected = "light windjacket";
+	    }
+		
+		
+		assertEquals(bot.outfitWind(), expected); //evaluation of the returned data
+		
+	}
 //	
 //	@Test
 //	void testOutfitRain() throws APIException {
