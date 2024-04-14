@@ -15,10 +15,10 @@ public class Bot {
 	//constructor
 	public Bot(OWM owm, String city) throws APIException {
 		this.owm = owm; //openweathermap object that contains API key
-		cwd = owm.currentWeatherByCityName(city); //current weather object by city name
+		cwd = owm.currentWeatherByCityName("Paris"); //current weather object by city name
 		wf = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name	
 		
-		
+		System.out.println(owm);
 	}
 
 	//Getter for the current temperature
@@ -53,39 +53,45 @@ public class Bot {
 	
 	//outfit suggestions method (according to the cloudiness)
 	public String outfitCloud() throws APIException{
-		
-		double temp = this.getTemp(); //gets current temperature in the chosen city
-		double cloud = cwd.getCloudData().component1(); //gets current cloud data in the chosen city
 		String result= ""; //creates the variable for return statement
-		
-		if (cloud>80 && temp>=0) //if clouds more than 80% and temperature equals or above 0
-			result = "optional/no headwear";
-		else if (cloud<20 && temp>=0)  //if clouds less than 20% and temperature equals or above 0
-			result = "headwear, sunglasses";
-		else if (cloud<20 && temp>15)  //if clouds less than 20% and temperature above 15
-			result = "light headwear, sunglasses";
-        return result; //returns the result
+		if(cwd.hasCloudData()) { //if there's cloud data
+			double temp = this.getTemp(); //gets current temperature in the chosen city
+			double cloud = cwd.getCloudData().component1(); //gets current cloud data in the chosen city
+			if (cloud>80 && temp>=0) //if clouds more than 80% and temperature equals or above 0
+				result = "optional/no headwear";
+			else if (cloud<20 && temp>=0)  //if clouds less than 20% and temperature equals or above 0
+				result = "headwear, sunglasses";
+			else if (cloud<20 && temp>15)  //if clouds less than 20% and temperature above 15
+				result = "light headwear, sunglasses";
+		}
+		return result; //returns the result
     }
-	
+ 	
 	//outfit suggestions method (according to the wind)
 	public String outfitWind() throws APIException {
-		
-	    double wind = cwd.getWindData().getSpeed(); //Get wind speed
-	    String result = ""; //Variable to store output message
-	    
-	    if(wind>=3.4 && wind<5.4) //conditions for the light wind (speed from 3.4 to 5.4 m/s)
-	    	result = "light windjacket";
-	    else if(wind>=5.4 && wind<7.9) //conditions for the moderate wind (speed from 5.4 to 7.9 m/s)
-	    	result = "windjacket";
-	    else if(wind>=7.9) //conditions for the strong wind (speed from 7.9 m/s)
-	    	result = "windjacket, fleece/sweatshirt";
-	    
+		String result = ""; //Variable to store output message
+	    if(cwd.hasWindData()) { //if there's wind data
+	    	double wind = cwd.getWindData().getSpeed(); //Get wind speed
+	    	if(wind>=3.4 && wind<5.4) //conditions for the light wind (speed from 3.4 to 5.4 m/s)
+		    	result = "light windjacket";
+		    else if(wind>=5.4 && wind<7.9) //conditions for the moderate wind (speed from 5.4 to 7.9 m/s)
+		    	result = "windjacket";
+		    else if(wind>=7.9) //conditions for the strong wind (speed from 7.9 m/s)
+		    	result = "windjacket, fleece/sweatshirt";
+	    }
         return result; //returns the result
     }
 	
 	//outfit suggestions method (according to the rain)
 	public String outfitRain() {
-        return null;
+		String result = ""; //Variable to store output message
+		if (cwd.hasRainData()) {
+			double rain = cwd.getRainData().getPrecipVol3h(); //Get wind speed
+		    if(rain>0) {
+		    	result = "rainjacket/umbrella";
+		    }
+		}
+        return result; //returns result
     }
 	
 	//outfit suggestions method (according to the UV index)
