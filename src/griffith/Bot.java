@@ -21,20 +21,7 @@ public class Bot {
 	public Bot(OWM owm, String city) throws APIException {
 		this.owm = owm; //openweathermap object that contains API key
 		cwd = owm.currentWeatherByCityName(city); //current weather object by city name
-		wf = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name
-		
-		
-//		//assigns the attributes values by calling the owm methods
-//		this.temp = cwd.getMainData().getTemp();
-//		this.cloud = cwd.getCloudData();
-//		this.wind = cwd.getWindData();
-//		this.rain = cwd.getRainData();
-//		//gets city coordinates
-//		double cityLat = cwd.component4().getLatitude();
-//		double cityLon = cwd.component4().getLongitude();
-//		//assigns uv index forecast using city coordinates
-//		this.uv = owm.dailyUVIndexForecastByCoords(cityLat, cityLon);
-		
+		wf = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name		
 	}
 
 	//Getter
