@@ -33,34 +33,34 @@ public class Bot {
 	//outfit suggestions method (according to the temperature)
 	public String outfitTemp() {
 		
-		double temp = this.getTemp();
-		String result;
+		double temp = this.getTemp(); //gets current temperature in the chosen city
+		String result; //creates the variable for return statement
 		
-		if (temp <-20) {
+		if (temp <-20) { //outfit for temperature below -20 degrees
 			result = "Thick down jacket, sweatshirt/hoodie/sweater, winter hat, gloves, boots, insulated pants";
 		}
-		else if(temp>=-20 && temp<-10) {
+		else if(temp>=-20 && temp<-10) { //outfit for temperature between -20 and -10 degrees
 			result ="Down jacket, sweatshirt/hoodie/sweater, winter hat, gloves, boots, insulated pants";
 		}
-		else if(temp>=-10 && temp<0) {
+		else if(temp>=-10 && temp<0) { //outfit for temperature between -10 and 0 degrees
 			result = "Down jacket, sweatshirt/hoodie/sweater+hat, gloves, boots, pants";
 		}
-		else if (temp>=0 && temp<10) {
+		else if (temp>=0 && temp<10) { //outfit for temperature between 0 and 10 degrees
 			result = "Jacket, sweatshirt/hoodie/sweater, pants, footwear";
 		}
-		else if (temp>=10 && temp<15) {
+		else if (temp>=10 && temp<15) { //outfit for temperature between 10 and 15 degrees
 			result = "Sweatshirt/hoodie/sweater, pants, footwear";
 		}
-		else if (temp>=15 && temp<20) {
+		else if (temp>=15 && temp<20) { //outfit for temperature between 15 and 20 degrees
 			result = "Pants/shorts, shirt/t-shirt, footwear";
 		}
-		else if (temp>=20) {
+		else if (temp>=20) { //outfit for temperature above 20 degrees
 			result = "Shorts, t-shirt, sandals";
 		}
-		else {
+		else { //for other outcomes
 			result = "Something went wrong, try again later";
 		}
-        return result;
+        return result; //returns the result
     }
 	
 	//outfit suggestions method (according to the cloudiness)
