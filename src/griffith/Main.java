@@ -20,9 +20,6 @@ public class Main {
     
 	    Scanner input = new Scanner(System.in); //scanner object for user input
 	    
-	    //Get wind speed by city name
-	    double windSpeed = owm.currentWeatherByCityName("Dublin").getWindData().getSpeed();
-	    
 	    Bot bot = new Bot(owm, "Dublin"); //creates the bot object
 	    
 	    //greeting message
