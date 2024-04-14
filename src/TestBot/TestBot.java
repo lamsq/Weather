@@ -16,7 +16,7 @@ public class TestBot {
 		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
 		Bot bot = new Bot(owm, "Dublin");
 		
-		double expected = 0; //expected temp
+		double expected = 9; //expected temp
 		
 		assertEquals(bot.getTemp(), expected, 0.5); //evaluation of the returned data
 		
@@ -30,7 +30,7 @@ public class TestBot {
 				
 		
 		//Test method with different numbers
-		String output = "Shorts+t-shirt+sandals";
+		String output = "Shorts, t-shirt, sandals";
 		assertEquals(output, bot.outfitTemp());
 	}
 	

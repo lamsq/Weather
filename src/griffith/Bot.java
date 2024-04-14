@@ -27,12 +27,40 @@ public class Bot {
 
 	//Getter for the current temperature
 	public double getTemp() {
-		return cwd.getMainData().getTemp();
+		return cwd.getMainData().getTemp(); //returns the value
 	}
 	
 	//outfit suggestions method (according to the temperature)
 	public String outfitTemp() {
-        return null;
+		
+		double temp = this.getTemp();
+		String result;
+		
+		if (temp <-20) {
+			result = "Thick down jacket, sweatshirt/hoodie/sweater, winter hat, gloves, boots, insulated pants";
+		}
+		else if(temp>=-20 && temp<-10) {
+			result ="Down jacket, sweatshirt/hoodie/sweater, winter hat, gloves, boots, insulated pants";
+		}
+		else if(temp>=-10 && temp<0) {
+			result = "Down jacket, sweatshirt/hoodie/sweater+hat, gloves, boots, pants";
+		}
+		else if (temp>=0 && temp<10) {
+			result = "Jacket, sweatshirt/hoodie/sweater, pants, footwear";
+		}
+		else if (temp>=10 && temp<15) {
+			result = "Sweatshirt/hoodie/sweater, pants, footwear";
+		}
+		else if (temp>=15 && temp<20) {
+			result = "Pants/shorts, shirt/t-shirt, footwear";
+		}
+		else if (temp>=20) {
+			result = "Shorts, t-shirt, sandals";
+		}
+		else {
+			result = "Something went wrong, try again later";
+		}
+        return result;
     }
 	
 	//outfit suggestions method (according to the cloudiness)
