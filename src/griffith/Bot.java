@@ -27,6 +27,11 @@ public class Bot {
 		return cwd.getMainData().getTemp(); //returns the value
 	}
 	
+	//Check if the input is a city name
+	public boolean isCityName(String input) {
+		return false;
+	}
+	
 	//outfit suggestions method (according to the temperature)
 	public String outfitTemp(String city) throws APIException{
 		cwd = owm.currentWeatherByCityName(city); //current weather object by city name
