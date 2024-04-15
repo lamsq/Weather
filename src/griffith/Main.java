@@ -20,7 +20,7 @@ public class Main {
     
 	    Scanner input = new Scanner(System.in); //scanner object for user input
 	    
-	    Bot bot = new Bot(owm, "Dublin"); //creates the bot object
+	    Bot bot = new Bot(owm); //creates the bot object
 	    
 	    //greeting message
 	    String greeting = "Welcome to the SuperWeather chatbot!\nThis bot can help you to decide what to wear!\nWhat is your name?";
