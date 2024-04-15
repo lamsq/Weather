@@ -39,9 +39,16 @@ public class Main {
 	    
 	    //main loop to process user inputs
 	    while (loop) {
-	    	
+	    	//Store user input
 	    	String choice = input.nextLine();
 	    	
+	    	//If user input is invalid city name, give error message
+	    	if(bot.isCityName(choice) == false) {
+	    		System.out.println("Invalid city name, try again");
+	    	}else {
+	    		//If user input is valid city name, give outfit suggestion by tempter
+	    		System.out.println(bot.outfitTemp(choice));
+	    	}
 	    	
 	    	
       
