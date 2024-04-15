@@ -89,5 +89,18 @@ public class TestBot {
 		
 		assertEquals(bot.forecastDate(0), expected);//evaluation of the returned data
 	}
+	
+	@Test
+	void testIsCityName() throws APIException {
+		//Create Bot object with stated API key
+		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
+		Bot bot = new Bot(owm);
+		
+		//Test with valid input, expected true
+		assertEquals(bot.isCityName("Dublin"), true);
+		
+		//Test with invalid input, expected false
+		assertEquals(bot.isCityName("20dj"), true);
+	}
 		
 }
