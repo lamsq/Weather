@@ -6,8 +6,6 @@ import net.aksingh.owmjapis.api.APIException;
 import net.aksingh.owmjapis.core.OWM;
 import net.aksingh.owmjapis.model.*;
 
-
-
 public class Bot {
 	//Attributes
 	private OWM owm; //openweathermap object
@@ -15,10 +13,10 @@ public class Bot {
 	private HourlyWeatherForecast wfd; //weather forecast object
 	
 	//constructor
-	public Bot(OWM owm, String city) throws APIException {
+	public Bot(OWM owm) throws APIException {
 		this.owm = owm; //openweathermap object that contains API key
 		
-		wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name	
+		//wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name	
 		
 	}
 
