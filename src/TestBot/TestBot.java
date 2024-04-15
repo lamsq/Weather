@@ -100,7 +100,17 @@ public class TestBot {
 		assertEquals(bot.isCityName("Dublin"), true);
 		
 		//Test with invalid input, expected false
-		assertEquals(bot.isCityName("20dj"), true);
+		assertEquals(bot.isCityName("20dj"), false);
 	}
 		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

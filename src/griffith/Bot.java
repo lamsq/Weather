@@ -28,8 +28,21 @@ public class Bot {
 	}
 	
 	//Check if the input is a city name
-	public boolean isCityName(String input) {
-		return false;
+	public boolean isCityName(String city) throws APIException {
+		try{
+			//current weather object by city name
+		    cwd = owm.currentWeatherByCityName(city);
+		        
+		    //Get temperature data
+		    Double sampleData = cwd.getMainData().getTemp();
+		        
+		    //Use temperature data to check if city name is valid
+		    //If the data is null then means the city name is invalid
+		    return sampleData != null;
+		    } catch (APIException e) {
+		       //return false if city name is invalid
+		       return false;
+		    }
 	}
 	
 	//outfit suggestions method (according to the temperature)
