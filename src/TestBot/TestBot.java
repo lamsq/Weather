@@ -2,12 +2,13 @@ package TestBot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.*;
+
 import org.junit.jupiter.api.Test;
 
 import griffith.Bot;
 import net.aksingh.owmjapis.api.APIException;
 import net.aksingh.owmjapis.core.OWM;
-import net.aksingh.owmjapis.model.CurrentWeather;
 
 public class TestBot {
 	
@@ -77,6 +78,16 @@ public class TestBot {
 		assertEquals(bot.outfitUV("Dublin"), expected);//evaluation of the returned data
 	}
 	
-	
+	@Test
+	void testForecastDate() throws APIException {
+		//Create Bot object with stated API key
+		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
+		Bot bot = new Bot(owm);
+		
+		@SuppressWarnings("deprecation")
+		Date expected = new Date(2024, Calendar.APRIL, 15); //expected value
+		
+		assertEquals(bot.forecastDate(0), expected);//evaluation of the returned data
+	}
 		
 }

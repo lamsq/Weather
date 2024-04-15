@@ -1,5 +1,6 @@
 package griffith;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import net.aksingh.owmjapis.api.APIException;
@@ -115,6 +116,7 @@ public class Bot {
 	
 	//converts days to unified date value
 	public Date forecastDate(int days) {
+		
 		return null;
 			
 	}
