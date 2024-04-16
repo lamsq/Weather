@@ -1,6 +1,7 @@
 //git checkout UnitTest
 package griffith;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 import net.aksingh.owmjapis.api.APIException;
@@ -15,8 +16,6 @@ public class Main {
 	public static void main(String[] args) throws APIException {
 		
         OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612"); // declaring object of "OWM" class with the API key
-        owm.setUnit(OWM.Unit.METRIC); //sets units to metric
-        owm.setAccuracy(OWM.Accuracy.ACCURATE); //sets accuracy
     
 	    Scanner input = new Scanner(System.in); //scanner object for user input
 	    

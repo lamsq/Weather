@@ -1,6 +1,7 @@
 package griffith;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 import net.aksingh.owmjapis.api.APIException;
@@ -16,9 +17,16 @@ public class Bot {
 	//constructor
 	public Bot(OWM owm) throws APIException {
 		this.owm = owm; //openweathermap object that contains API key
+		owm.setUnit(OWM.Unit.METRIC);//sets units to metric
+		owm.setAccuracy(OWM.Accuracy.ACCURATE); //sets accuracy
 		
 		//wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name	
 		
+	}
+	
+	//get all suggestions for the current weather
+	public String[] outfitCurrentWeather() {
+		return null;
 	}
 
 	//Getter for the current temperature
@@ -29,20 +37,12 @@ public class Bot {
 	
 	//Check if the input is a city name
 	public boolean isCityName(String city) throws APIException {
-		try{
-			//current weather object by city name
-		    cwd = owm.currentWeatherByCityName(city);
-		        
-		    //Get temperature data
-		    Double sampleData = cwd.getMainData().getTemp();
-		        
-		    //Use temperature data to check if city name is valid
-		    //If the data is null then means the city name is invalid
-		    return sampleData != null;
-		    } catch (APIException e) {
-		       //return false if city name is invalid
-		       return false;
-		    }
+		
+		//current weather object by city name
+		cwd = owm.currentWeatherByCityName(city);
+		//returns boolean if there's such a city
+		return cwd.hasCityName();
+		    
 	}
 	
 	//outfit suggestions method (according to the temperature)
@@ -126,16 +126,25 @@ public class Bot {
 			lat = cwd.getCoordData().getLatitude(); //assigns the latitude
 			lon = cwd.getCoordData().getLongitude(); //assigns the longitude
 			double uv = owm.currentUVIndexByCoords(lat, lon).getValue(); //assigns the uv index value
-			if(uv>3) //condition if uv is higher than 3
+			
+			if(uv>4) //condition if uv is higher than 3
 				result = "Sunscreen"; //offers to use sunscreen
 		}
         return result; //returns the result
     }
 	
 	//converts days to unified date value
-	public Date forecastDate(int days) {
+	public LocalDate[] forecastDate(int days) {
 		
-		return null;
+		LocalDate[] forecastDays = new LocalDate[days]; //creates the array of the dates to get forecast for
+		LocalDate today = LocalDate.now(); //creates todays date
+       
+		for(int i=1; i<=days; i++) { //loop that iterates days times and adds next days to the array
+			LocalDate futureDate = today.plusDays(i); //creates next date
+			forecastDays[i-1] = futureDate; //adds next date
+		}
+		
+		return forecastDays; //returns the array of the next days
 			
 	}
 	
