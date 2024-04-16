@@ -41,14 +41,12 @@ public class Main {
 	    	//Store user input
 	    	String choice = input.nextLine();
 	    	
+	    	
+	    	
 	    	//If user input is invalid city name, give error message
-	    	if(bot.isCityName(choice)) {
-	    		if(true) {
-	    			//If user input is valid city name, give outfit suggestion by weather condition		    					
-	    			System.out.println(bot.outfitCurrentWeather(choice));
-	    		}
-	    	}
-	    		
+	    	if(bot.isCityName(choice)) 
+	    		//If user input is valid city name, give outfit suggestion by weather condition
+	    		System.out.println(bot.outfitCurrentWeather(choice));
 	    	
 	    	
 	    	

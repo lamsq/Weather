@@ -194,7 +194,7 @@ public class Bot {
 	}	
 	
 	//method to process user input data for different requests (current/forecast/length of forecast)
-	public String[] inputProcess (String input) {
+	public String[] inputProcessing (String input) {
 		return null;
 	}
 	
