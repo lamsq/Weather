@@ -193,5 +193,10 @@ public class Bot {
 		return null;
 	}	
 	
+	//method to process user input data for different requests (current/forecast/length of forecast)
+	public String[] inputProcess (String input) {
+		return null;
+	}
+	
 	
 }
