@@ -25,8 +25,18 @@ public class Bot {
 	}
 	
 	//get all suggestions for the current weather
-	public String[] outfitCurrentWeather() {
-		return null;
+	public String outfitCurrentWeather(String city) throws APIException {
+		
+		String outfit="The best choice would be:\n";
+		
+		outfit=outfit.concat(outfitTemp(city));
+		outfit=outfit.concat(outfitCloud(city));
+		outfit=outfit.concat(outfitWind(city));
+		outfit=outfit.concat(outfitRain(city));
+		outfit=outfit.concat(outfitUV(city));
+		outfit=outfit.concat(";");
+		
+		return outfit;
 	}
 
 	//Getter for the current temperature
@@ -36,13 +46,17 @@ public class Bot {
 	}
 	
 	//Check if the input is a city name
-	public boolean isCityName(String city) throws APIException {
+	public boolean isCityName(String city)  {
 		
-		//current weather object by city name
-		cwd = owm.currentWeatherByCityName(city);
-		//returns boolean if there's such a city
-		return cwd.hasCityName();
-		    
+		try {
+			cwd = owm.currentWeatherByCityName(city); //current weather object by city name
+			return true; //returns true if there's such a city
+		}
+		catch (APIException e) {
+			System.out.println("Incorrect city name, try again;");
+			return false; //returns false if there's no such a city
+		}
+		  
 	}
 	
 	//outfit suggestions method (according to the temperature)
@@ -78,11 +92,11 @@ public class Bot {
 			double temp = this.getTemp(city); //gets current temperature in the chosen city
 			double cloud = cwd.getCloudData().component1(); //gets current cloud data in the chosen city
 			if (cloud>80 && temp>=0) //if clouds more than 80% and temperature equals or above 0
-				result = "optional/no headwear";
+				result = "; optional/no headwear";
 			else if (cloud<20 && temp>=0)  //if clouds less than 20% and temperature equals or above 0
-				result = "headwear, sunglasses";
+				result = "; headwear, sunglasses";
 			else if (cloud<20 && temp>15)  //if clouds less than 20% and temperature above 15
-				result = "light headwear, sunglasses";
+				result = "; light headwear, sunglasses";
 		}
 		return result; //returns the result
     }
@@ -91,14 +105,14 @@ public class Bot {
 	public String outfitWind(String city) throws APIException {
 		cwd = owm.currentWeatherByCityName(city); //current weather object by city name
 		String result = ""; //Variable to store output message
-	    if(cwd.hasWindData()) { //if there's wind data
+	    if(cwd.hasWindData() && getTemp(city)>=10) { //if there's wind data
 	    	double wind = cwd.getWindData().getSpeed(); //Get wind speed
 	    	if(wind>=3.4 && wind<5.4) //conditions for the light wind (speed from 3.4 to 5.4 m/s)
-		    	result = "light windjacket";
-		    else if(wind>=5.4 && wind<7.9) //conditions for the moderate wind (speed from 5.4 to 7.9 m/s)
-		    	result = "windjacket";
+		    	result = "; light windjacket";
+		    else if(wind>=5.4 && wind<7.9 ) //conditions for the moderate wind (speed from 5.4 to 7.9 m/s)
+		    	result = "; windjacket";
 		    else if(wind>=7.9) //conditions for the strong wind (speed from 7.9 m/s)
-		    	result = "windjacket, fleece/sweatshirt";
+		    	result = "; windjacket, fleece/sweatshirt";
 	    }
         return result; //returns the result
     }
@@ -109,8 +123,8 @@ public class Bot {
 		String result = ""; //Variable to store output message
 		if (cwd.hasRainData()) {
 			double rain = cwd.getRainData().getPrecipVol3h(); //Get wind speed
-		    if(rain>0) {
-		    	result = "rainjacket/umbrella";
+		    if(rain>0 && getTemp(city)>=10) {
+		    	result = "; rainjacket/umbrella";
 		    }
 		}
         return result; //returns result
@@ -128,7 +142,7 @@ public class Bot {
 			double uv = owm.currentUVIndexByCoords(lat, lon).getValue(); //assigns the uv index value
 			
 			if(uv>4) //condition if uv is higher than 3
-				result = "Sunscreen"; //offers to use sunscreen
+				result = "; sunscreen"; //offers to use sunscreen
 		}
         return result; //returns the result
     }
