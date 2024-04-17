@@ -27,7 +27,8 @@ public class Bot {
 	//get all suggestions for the current weather
 	public String outfitCurrentWeather(String city) throws APIException {
 		
-		String outfit="The best choice would be:\n";
+		//calls all the methods related to the ourfit for current weather
+		String outfit="The best choice for "+cwd.getCityName()+" would be:\n";
 		
 		outfit=outfit.concat(outfitTemp(city));
 		outfit=outfit.concat(outfitCloud(city));
@@ -36,7 +37,7 @@ public class Bot {
 		outfit=outfit.concat(outfitUV(city));
 		outfit=outfit.concat(";");
 		
-		return outfit;
+		return outfit; //returns the result
 	}
 
 	//Getter for the current temperature
@@ -232,15 +233,10 @@ public class Bot {
 		if (input.contains("next") || input.contains("forecast") || input.contains("days")) { //checks if user wants to get results for the upcoming days
 			for (int i=0; i<inputArray.length; i++) { //loops through the data
 				if(inputArray[i].matches("(^|\s+)([1-5])($|\s+)")) { //regex to find the number of days
-					//inputArray[i].trim(); //deletes spaces
-					//inputArray[i].strip(); //deletes whitespaces
-					int days = Integer.valueOf(inputArray[i]) ;
-					System.out.println(days);
+					int days = Integer.valueOf(inputArray[i]) ; //casts string to int
 				}
 			}
-			
 		}
-		
 		
 		if(dates.size()==inputData.get("city").size()) { //condition for one day forecast for each city
 			for (int i=0; i<dates.size(); i++) { //loop goes through the dates 
@@ -281,9 +277,6 @@ public class Bot {
 			mode.add("current weather");
 			inputData.put("mode", mode); //puts mode
 		}
-		
-		
-		
 		
 		return inputData; //returns processed data
 	}

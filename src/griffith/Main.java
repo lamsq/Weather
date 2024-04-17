@@ -1,7 +1,9 @@
 //git checkout UnitTest
 package griffith;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import net.aksingh.owmjapis.api.APIException;
@@ -41,12 +43,14 @@ public class Main {
 	    	//Store user input
 	    	String choice = input.nextLine();
 	    	
+	    	HashMap<String, ArrayList<String>> data = bot.inputProcessing(choice); //sorted user data
 	    	
+	    	for (int i=0; i<data.get("city").size(); i++) { //loop through the cities
+	    		System.out.println(bot.outfitCurrentWeather(data.get("city").get(i))); //prints the appropriate outfit
+	    		System.out.println(); 
+	    	}
+	    			
 	    	
-	    	//If user input is invalid city name, give error message
-	    	//if(bot.isCityName(choice)) 
-	    		//If user input is valid city name, give outfit suggestion by weather condition
-	    			System.out.println(bot.inputProcessing(choice));
 	    	
 	    	
 	    	
