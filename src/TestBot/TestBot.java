@@ -110,7 +110,8 @@ public class TestBot {
 		Bot bot = new Bot(owm);
 		
 		String expected = "Dublin"; //expected value
-		String actual = bot.inputProcessing("Dublin").get(expected).get(0); //actual value that is returned by the method
+
+		String actual = bot.inputProcessing("Dublin").get("city").get(0); //actual value that is returned by the method
 		
 		//Test with valid input, expected true
 		assertEquals(actual, expected);

@@ -53,10 +53,8 @@ public class Bot {
 			return true; //returns true if there's such a city
 		}
 		catch (APIException e) {
-			System.out.println("Incorrect city name, try again;");
 			return false; //returns false if there's no such a city
-		}
-		  
+		} 
 	}
 	
 	//outfit suggestions method (according to the temperature)
@@ -198,19 +196,96 @@ public class Bot {
 		
 		//datastructure that will be returned and contains data about the cities and dates for the forecast
 		HashMap<String, ArrayList<String>> inputData = new HashMap<String, ArrayList<String>>();
-		 
-		String[] inputArray = input.split(input, ' '); //splits user data to array
+		
+		String[] inputArray; //array for the user input
+		
+		if (!input.contains(" ")) { //if input contains only 1 word
+			inputArray = new String[1]; //assigns the new array with 1 element
+			inputArray[0] = input; //sets the element
+		} //if there are more than 1 element
+		else {
+			inputArray = input.split(" "); //splits user data to array
+		}
 		
 		ArrayList<String> cities = new ArrayList<>(); //creates the arraylist with cities
 		
 		for (int i=0; i<inputArray.length; i++) { //loop that goes through the user data
-			if(isCityName(inputArray[i])) { //condition that checks if city with this name exists
+			if(isCityName(inputArray[i]) && !inputArray[i].equals("days"))  //condition that checks if city with this name exists
 				cities.add(inputArray[i]); //adds city to the arraylist
-			}
+			else if (isCityName(inputArray[i]) && inputArray[i].equals("Days"))
+				cities.add(inputArray[i]); //adds city to the arraylist
 		}
 		inputData.put("city", cities); //puts the data to the hashmap
 		
-		return inputData;
+		ArrayList<String> dates = new ArrayList<>(); //creates the arraylist with dates
+		
+		for (int i=0; i<inputArray.length; i++) { //loop that goes through the user data
+			if(inputArray[i].matches("\\b(?:0?[1-9]|[12]\\d|3[01])[-,\\/.](?:0?[1-9]|1[0-2])[-,\\/.](?:\\d{4}|\\d{2})\\b")) { //condition that checks if city with this name exists
+				dates.add(inputArray[i]); //adds start date to the arraylist 
+				
+			}
+		}
+		
+		ArrayList<String> startDates = new ArrayList<>(); //creates the arraylist with start dates
+		ArrayList<String> endDates = new ArrayList<>(); //creates the arraylist with end dates
+		
+		if (input.contains("next") || input.contains("forecast") || input.contains("days")) { //checks if user wants to get results for the upcoming days
+			for (int i=0; i<inputArray.length; i++) { //loops through the data
+				if(inputArray[i].matches("(^|\s+)([1-5])($|\s+)")) { //regex to find the number of days
+					//inputArray[i].trim(); //deletes spaces
+					//inputArray[i].strip(); //deletes whitespaces
+					int days = Integer.valueOf(inputArray[i]) ;
+					System.out.println(days);
+				}
+			}
+			
+		}
+		
+		
+		if(dates.size()==inputData.get("city").size()) { //condition for one day forecast for each city
+			for (int i=0; i<dates.size(); i++) { //loop goes through the dates 
+				startDates.add(dates.get(i));	//puts dates to the corresponding arraylist
+			}
+		}
+		else { //condition for a few days forecast for each city 
+			for (int i=0; i<dates.size(); i++) { //loop that goes through dates
+				if(dates.indexOf(dates.get(i))%2==0) //forecast start dates
+					startDates.add(dates.get(i)); //adds date to the array list
+				else  //forecast end dates
+					endDates.add(dates.get(i)); //adds date to the array list
+			}
+		}
+		
+		//puts data to the hashmap
+		inputData.put("start", startDates); 
+		inputData.put("end", endDates); 
+		
+		ArrayList<String> mode = new ArrayList<>(); //mode for the weather outfits
+		//if city was not recognised
+		if (inputData.get("city").size()==0){
+			System.out.println("Incorrect city name, try again;"); //prints error message
+			return null; //returns null
+		}
+		//condition for the multiple days forecast
+		else if (inputData.get("city").size()==inputData.get("start").size() && inputData.get("end").size()==inputData.get("start").size() && inputData.get("city").size()==inputData.get("end").size()) {
+			mode.add("period forecast");
+			inputData.put("mode", mode);
+		}
+		//condition for the single day forecast
+		else if (inputData.get("city").size()==inputData.get("start").size() && inputData.get("end").size()==0) {
+			mode.add("single forecast");
+			inputData.put("mode", mode); //puts mode
+		}
+		//condition for the current weather
+		else if (inputData.get("city").size()!=0 && inputData.get("start").size()==0 && inputData.get("end").size()==0) {
+			mode.add("current weather");
+			inputData.put("mode", mode); //puts mode
+		}
+		
+		
+		
+		
+		return inputData; //returns processed data
 	}
 	
 	
