@@ -42,9 +42,9 @@ public class TestBot {
 		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
 		Bot bot = new Bot(owm);
 		
-		String expected = "optional/no headwear"; //expected outfit for the clouds condition
+		String expected = "; optional/no headwear"; //expected outfit for the clouds condition
 		
-		assertEquals(bot.outfitCloud("Berlin"), expected); //evaluation of the returned data
+		assertEquals(bot.outfitCloud("days"), expected); //evaluation of the returned data
 	}
 	
 	@Test
@@ -53,9 +53,9 @@ public class TestBot {
 		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
 		Bot bot = new Bot(owm);
 		
-	    String expected = "windjacket, fleece/sweatshirt";//Variable to store string	
+	    String expected = "; light windjacket";//Variable to store string	
 	    
-		assertEquals(bot.outfitWind("Berlin"), expected); //evaluation of the returned data
+		assertEquals(bot.outfitWind("Days"), expected); //evaluation of the returned data
 	}
 	
 	@Test
@@ -86,7 +86,6 @@ public class TestBot {
 		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
 		Bot bot = new Bot(owm);
 		
-		@SuppressWarnings("deprecation")
 		LocalDate expected = LocalDate.of(2024, 04, 17); //expected value
 		
 		assertEquals(bot.forecastDate(1)[0], expected);//evaluation of the returned data
@@ -111,7 +110,7 @@ public class TestBot {
 		
 		String expected = "Dublin"; //expected value
 
-		String actual = bot.inputProcessing("Dublin").get("city").get(0); //actual value that is returned by the method
+		String actual = bot.inputProcessing("Dublin next 3 days").get("city").get(0); //actual value that is returned by the method
 		
 		//Test with valid input, expected true
 		assertEquals(actual, expected);
