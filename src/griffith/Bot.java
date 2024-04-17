@@ -196,7 +196,21 @@ public class Bot {
 	//method to process user input data for different requests (current/forecast/length of forecast)
 	public HashMap<String, ArrayList<String>> inputProcessing (String input) {
 		
-		return null;
+		//datastructure that will be returned and contains data about the cities and dates for the forecast
+		HashMap<String, ArrayList<String>> inputData = new HashMap<String, ArrayList<String>>();
+		 
+		String[] inputArray = input.split(input, ' '); //splits user data to array
+		
+		ArrayList<String> cities = new ArrayList<>(); //creates the arraylist with cities
+		
+		for (int i=0; i<inputArray.length; i++) { //loop that goes through the user data
+			if(isCityName(inputArray[i])) { //condition that checks if city with this name exists
+				cities.add(inputArray[i]); //adds city to the arraylist
+			}
+		}
+		inputData.put("city", cities); //puts the data to the hashmap
+		
+		return inputData;
 	}
 	
 	
