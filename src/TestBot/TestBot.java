@@ -109,12 +109,11 @@ public class TestBot {
 		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
 		Bot bot = new Bot(owm);
 		
-		String expected = "Dublin";
-		HashMap<String, String[]> actual = new HashMap<String, String[]>();
-		
+		String expected = "Dublin"; //expected value
+		String actual = bot.inputProcessing("Dublin").get(expected).get(0); //actual value that is returned by the method
 		
 		//Test with valid input, expected true
-		assertEquals(bot.inputProcessing("Dublin").get("city")[0], true);
+		assertEquals(actual, expected);
 		
 	}
 		
