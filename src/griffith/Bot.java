@@ -194,7 +194,8 @@ public class Bot {
 	}	
 	
 	//method to process user input data for different requests (current/forecast/length of forecast)
-	public String[] inputProcessing (String input) {
+	public HashMap<String, String[]> inputProcessing (String input) {
+				
 		return null;
 	}
 	

@@ -102,6 +102,21 @@ public class TestBot {
 		assertEquals(bot.isCityName("Dublin"), true);
 		
 	}
+	
+	@Test
+	void testInputProcessing() throws APIException {
+		//Create Bot object with stated API key
+		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
+		Bot bot = new Bot(owm);
+		
+		String expected = "Dublin";
+		HashMap<String, String[]> actual = new HashMap<String, String[]>();
+		
+		
+		//Test with valid input, expected true
+		assertEquals(bot.inputProcessing("Dublin").get("city")[0], true);
+		
+	}
 		
 	
 	
