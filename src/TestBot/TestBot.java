@@ -120,7 +120,16 @@ public class TestBot {
 	
 	
 	
-	
+	@Test
+	void testOutfitTempForecast() throws APIException {
+		//Create Bot object with stated API key
+		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
+		Bot bot = new Bot(owm);
+		
+		//Test method with different numbers
+		String output = "Jacket, sweatshirt/hoodie/sweater, pants, footwear";
+		assertEquals(output, bot.outfitTempForecast("Berlin", null));
+	}
 	
 	
 	
