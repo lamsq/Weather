@@ -131,7 +131,16 @@ public class TestBot {
 		assertEquals(output, bot.outfitTempForecast("Berlin", null));
 	}
 	
-	
+	@Test
+	void testOutfitCloudForecast() throws APIException {
+		//Create Bot object with stated API key
+		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
+		Bot bot = new Bot(owm);
+		
+		String expected = "; optional/no headwear"; //expected outfit for the clouds condition
+		
+		assertEquals(bot.outfitCloudForecast("days", null), expected); //evaluation of the returned data
+	}
 	
 	
 	
