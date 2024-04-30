@@ -18,9 +18,7 @@ public class Bot {
 	public Bot(OWM owm) throws APIException {
 		this.owm = owm; //openweathermap object that contains API key
 		owm.setUnit(OWM.Unit.METRIC);//sets units to metric
-		owm.setAccuracy(OWM.Accuracy.ACCURATE); //sets accuracy
-		
-		//wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name	
+		owm.setAccuracy(OWM.Accuracy.ACCURATE); //sets accuracy	
 		
 	}
 	
@@ -162,8 +160,60 @@ public class Bot {
 	}
 	
 	//Getter for the temperature forecast
-	public double[] getTempForecast(String city, Date date) {
-		return null;
+	public HashMap<String, String> getTempForecast(String city, LocalDate[] forecastDate) throws APIException {
+		
+//		wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name
+//		//double[] temps = new double[forecastDate.length];
+//		HashMap<String, String> temps = new HashMap<String, String>();
+//
+//		
+//		for (int i=0; i<forecastDate.length; i++) {
+//			
+//			double tempData = 0;
+//			double tempMax = wfd.getDataList().get(0).getMainData().getTempMax();
+//			double tempMin = wfd.getDataList().get(0).getMainData().getTempMin();
+//			String timeMax = "";
+//			String timeMin = "";
+//			
+//			for (int j=0; j<wfd.getDataList().size(); j++) {
+//				
+//				
+//				
+//				if (wfd.getDataList().get(j).getDateTimeText().contains(forecastDate[i].toString())) {
+//					
+//					tempData=tempData+wfd.getDataList().get(j).getMainData().getTemp();
+//					
+//					
+//					if (tempMax<wfd.getDataList().get(j).getMainData().getTempMax()) {
+//						
+//						tempMax = wfd.getDataList().get(j).getMainData().getTempMax();
+//						timeMax = wfd.getDataList().get(j).getDateTime().toString();
+//						
+//					}
+//					if (tempMin>wfd.getDataList().get(j).getMainData().getTempMin()) {
+//						
+//						tempMin = wfd.getDataList().get(j).getMainData().getTempMin();
+//						timeMin = wfd.getDataList().get(j).getDateTime().toString();
+//						
+//						
+//					}
+//					
+//				}else if(tempData!=0){
+//					
+//					temps.put("avg temp", Double.toString(tempData/8));
+//					temps.put("max temp", Double.toString(tempMax));
+//					temps.put("max time", timeMax );
+//					temps.put("min temp", Double.toString(tempMin));
+//					
+//					temps.put("min time", timeMin );
+//					
+//				}
+//				
+//			}
+//			
+//		};
+//		
+		return null; //temps
 		
 	}
 	
@@ -259,7 +309,7 @@ public class Bot {
 		ArrayList<String> mode = new ArrayList<>(); //mode for the weather outfits
 		//if city was not recognised
 		if (inputData.get("city").size()==0){
-			System.out.println("Incorrect city name, try again;"); //prints error message
+			System.out.println("We checked the map, there is no city with this name;"); //prints error message
 			return null; //returns null
 		}
 		//condition for the multiple days forecast

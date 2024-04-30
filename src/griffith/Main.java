@@ -1,6 +1,7 @@
 //git checkout UnitTest
 package griffith;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,6 +39,17 @@ public class Main {
 	    
 	    boolean loop = true; //flag for loop condition
 	    
+//	    
+//	    HourlyWeatherForecast wfd = owm.hourlyWeatherForecastByCityName("Berlin");
+//	    
+//	    System.out.println((bot.getTempForecast("Berlin", bot.forecastDate(1))).get("max temp"));
+//	    System.out.println((bot.getTempForecast("Berlin", bot.forecastDate(1))).get("max time"));
+//	    System.out.println((bot.getTempForecast("Berlin", bot.forecastDate(1))).get("min temp"));
+//	    System.out.println((bot.getTempForecast("Berlin", bot.forecastDate(1))).get("min time"));
+//	    
+//	    System.out.println((bot.getTempForecast("Berlin", bot.forecastDate(1))).get("avg temp"));
+	    
+	    
 	    //main loop to process user inputs
 	    while (loop) {
 	    	//Store user input
@@ -45,10 +57,28 @@ public class Main {
 	    	
 	    	HashMap<String, ArrayList<String>> data = bot.inputProcessing(choice); //sorted user data
 	    	
-	    	for (int i=0; i<data.get("city").size(); i++) { //loop through the cities
-	    		System.out.println(bot.outfitCurrentWeather(data.get("city").get(i))); //prints the appropriate outfit
-	    		System.out.println(); 
+	    	if(data!=null) {
+	    		if (data.get("mode").get(0).equals("current weather")) {
+		    		for (int i=0; i<data.get("city").size(); i++) { //loop through the cities
+			    		System.out.println(bot.outfitCurrentWeather(data.get("city").get(i))); //prints the appropriate outfit
+			    		System.out.println(); 
+			    	}
+		    		
+		    	} else if (data.get("mode").get(0).equals("single forecast")) {
+		    		
+		    		System.out.println("single forecast");
+		    	} else if (data.get("mode").get(0).equals("period forecast")){
+		    		System.out.println("period forecast");
+		    	} else {
+		    		System.out.println("Specify your request: current weather or forecast?");
+		    	}
+	    		
+	    		
 	    	}
+	    	
+	    	
+	    	
+	    	
 	    			
 	    	
 	    	
