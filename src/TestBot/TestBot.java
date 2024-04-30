@@ -164,4 +164,15 @@ public class TestBot {
 		assertEquals(bot.outfitRainForecast("Berlin", null), expected); //evaluation of the returned data
 	}
 	
+	@Test
+	void testOutfitUVForecast() throws APIException {
+		//Create Bot object with stated API key
+		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
+		Bot bot = new Bot(owm);
+		
+		String expected = ""; //expected value
+		
+		assertEquals(bot.outfitUVForecast("Moscow", null), expected);//evaluation of the returned data
+	}
+	
 }
