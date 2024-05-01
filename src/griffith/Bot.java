@@ -293,9 +293,9 @@ public class Bot {
 		ArrayList<String> cities = new ArrayList<>(); //creates the arraylist with cities
 		
 		for (int i=0; i<inputArray.length; i++) { //loop that goes through the user data
-			if(isCityName(inputArray[i]) && !inputArray[i].equals("days"))  //condition that checks if city with this name exists
+			if(isCityName(inputArray[i]) && !inputArray[i].equals("days") && !inputArray[i].equals("day"))  //condition that checks if city with this name exists
 				cities.add(inputArray[i]); //adds city to the arraylist
-			else if (isCityName(inputArray[i]) && inputArray[i].equals("Days"))
+			else if (isCityName(inputArray[i]) && inputArray[i].equals("Days") && inputArray[i].equals("Day"))
 				cities.add(inputArray[i]); //adds city to the arraylist
 		}
 		inputData.put("city", cities); //puts the data to the hashmap
@@ -368,16 +368,16 @@ public class Bot {
 			System.out.println("We checked the map, there is no city with this name;"); //prints error message
 			return null; //returns null
 		}
-		//condition for the multiple days forecast
-		else if (inputData.get("city").size()==inputData.get("start").size() && inputData.get("end").size()==inputData.get("start").size() && inputData.get("city").size()==inputData.get("end").size() && forecast) {
-			mode.add("period forecast");
-			inputData.put("mode", mode);
-		}
 		//condition for the single day forecast
-		else if (inputData.get("city").size()==inputData.get("start").size() && inputData.get("end").size()==0 && forecast) {
+		else if (inputData.get("city").size()==inputData.get("start").size() && inputData.get("end").size()==0 || (forecast && dates.size()==1)) {
 			mode.add("single forecast");
 			inputData.put("mode", mode); //puts mode
 		}
+		//condition for the multiple days forecast
+		else if (inputData.get("city").size()==inputData.get("start").size() && inputData.get("end").size()==inputData.get("start").size() && inputData.get("city").size()==inputData.get("end").size() || (forecast && dates.size()>1)) {
+			mode.add("period forecast");
+			inputData.put("mode", mode);
+		}		
 		//condition for the current weather
 		else if (inputData.get("city").size()!=0 && inputData.get("start").size()==0 && inputData.get("end").size()==0) {
 			mode.add("current weather");
