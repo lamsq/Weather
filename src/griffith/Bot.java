@@ -160,61 +160,48 @@ public class Bot {
 	}
 	
 	//Getter for the temperature forecast
-	public HashMap<String, String> getTempForecast(String city, LocalDate[] forecastDate) throws APIException {
+	public ArrayList<HashMap<String, String>> getTempForecast(String city, LocalDate[] forecastDate) throws APIException {
 		
-//		wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name
-//		//double[] temps = new double[forecastDate.length];
-//		HashMap<String, String> temps = new HashMap<String, String>();
-//
-//		
-//		for (int i=0; i<forecastDate.length; i++) {
-//			
-//			double tempData = 0;
-//			double tempMax = wfd.getDataList().get(0).getMainData().getTempMax();
-//			double tempMin = wfd.getDataList().get(0).getMainData().getTempMin();
-//			String timeMax = "";
-//			String timeMin = "";
-//			
-//			for (int j=0; j<wfd.getDataList().size(); j++) {
-//				
-//				
-//				
-//				if (wfd.getDataList().get(j).getDateTimeText().contains(forecastDate[i].toString())) {
-//					
-//					tempData=tempData+wfd.getDataList().get(j).getMainData().getTemp();
-//					
-//					
-//					if (tempMax<wfd.getDataList().get(j).getMainData().getTempMax()) {
-//						
-//						tempMax = wfd.getDataList().get(j).getMainData().getTempMax();
-//						timeMax = wfd.getDataList().get(j).getDateTime().toString();
-//						
-//					}
-//					if (tempMin>wfd.getDataList().get(j).getMainData().getTempMin()) {
-//						
-//						tempMin = wfd.getDataList().get(j).getMainData().getTempMin();
-//						timeMin = wfd.getDataList().get(j).getDateTime().toString();
-//						
-//						
-//					}
-//					
-//				}else if(tempData!=0){
-//					
-//					temps.put("avg temp", Double.toString(tempData/8));
-//					temps.put("max temp", Double.toString(tempMax));
-//					temps.put("max time", timeMax );
-//					temps.put("min temp", Double.toString(tempMin));
-//					
-//					temps.put("min time", timeMin );
-//					
-//				}
-//				
-//			}
-//			
-//		};
-//		
-		return null; //temps
+		wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name		
+		ArrayList<HashMap<String, String>> avgTempData = new ArrayList<HashMap<String, String>>(); //array data for hashmaps with temperatures and time
 		
+		for (int i=0; i<forecastDate.length; i++) { //loop that goes through the dates to forecast the weather
+			
+			HashMap<String, String> temps = new HashMap<String, String>(); //hashmap for output data			
+			double tempData = 0; //the sum of avg temps through the day
+			double tempMax = wfd.getDataList().get(0).getMainData().getTempMax(); //max temp during the day
+			double tempMin = wfd.getDataList().get(0).getMainData().getTempMin(); //min temp during the day
+			String timeMax = ""; //time of the max temp
+			String timeMin = ""; //time of the min temp
+			
+			for (int j=0; j<wfd.getDataList().size(); j++) { //loop that goes through the temp data forecast
+				
+				if (wfd.getDataList().get(j).getDateTimeText().contains(forecastDate[i].toString())) { //if forecast date equals the requested date
+					
+					tempData=tempData+wfd.getDataList().get(j).getMainData().getTemp(); //sums the avg temp to the variable					
+					if (tempMax<wfd.getDataList().get(j).getMainData().getTempMax()) { //checks if max temp is lower than max temp of the day
+						//if true, sets the max temp and time
+						tempMax = wfd.getDataList().get(j).getMainData().getTempMax(); 
+						timeMax = wfd.getDataList().get(j).getDateTime().toString();
+					}					
+					if (tempMin>wfd.getDataList().get(j).getMainData().getTempMin()) { //checks if min temp is higher than max temp of the day
+						//if true, sets the min temp and time
+						tempMin = wfd.getDataList().get(j).getMainData().getTempMin();
+						timeMin = wfd.getDataList().get(j).getDateTime().toString();
+					}
+					
+				}else if(tempData!=0){ //if the sum of temperatures isnt 0, puts the data to the hashmap					
+					temps.put("date", forecastDate[i].toString());
+					temps.put("avg temp", Double.toString(tempData/8)); //puts the avg temp, divided by 8, since we have forecast every 3 hre (24/3 = 8)
+					temps.put("max temp", Double.toString(tempMax)); //puts max temp
+					temps.put("max time", timeMax ); //puts max time
+					temps.put("min temp", Double.toString(tempMin)); //puts min temp
+					temps.put("min time", timeMin ); //puts min time	
+				}
+			}
+			avgTempData.add(temps); //adds hashmaps to trhe arraylist
+		}
+		return avgTempData; //returns the hashmap with data
 	}
 	
 	//Method to suggest outfit for the temperature forecast

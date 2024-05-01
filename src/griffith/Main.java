@@ -39,15 +39,21 @@ public class Main {
 	    
 	    boolean loop = true; //flag for loop condition
 	    
-//	    
+	    
 //	    HourlyWeatherForecast wfd = owm.hourlyWeatherForecastByCityName("Berlin");
 //	    
-//	    System.out.println((bot.getTempForecast("Berlin", bot.forecastDate(1))).get("max temp"));
-//	    System.out.println((bot.getTempForecast("Berlin", bot.forecastDate(1))).get("max time"));
-//	    System.out.println((bot.getTempForecast("Berlin", bot.forecastDate(1))).get("min temp"));
-//	    System.out.println((bot.getTempForecast("Berlin", bot.forecastDate(1))).get("min time"));
 //	    
-//	    System.out.println((bot.getTempForecast("Berlin", bot.forecastDate(1))).get("avg temp"));
+//	    ArrayList<HashMap<String, String>> avgTempData = bot.getTempForecast("Berlin", bot.forecastDate(4));
+//	    for (int t=0; t<avgTempData.size(); t++) {
+//	    	
+//	    	System.out.println(avgTempData.get(t).get("max temp"));
+//	    	System.out.println(avgTempData.get(t).get("max time"));
+//	    	System.out.println(avgTempData.get(t).get("min temp"));
+//	    	System.out.println(avgTempData.get(t).get("min time"));
+//	    	System.out.println(avgTempData.get(t).get("avg temp"));
+//	    	
+//	    }
+	    
 	    
 	    
 	    //main loop to process user inputs
