@@ -26,7 +26,7 @@ public class Bot {
 	public String outfitCurrentWeather(String city) throws APIException {
 		
 		//calls all the methods related to the ourfit for current weather
-		String outfit="The best choice for "+cwd.getCityName()+" would be:\n";
+		String outfit="The best choice for "+city+" would be:\n";
 		
 		outfit=outfit.concat(outfitTemp(city));
 		outfit=outfit.concat(outfitCloud(city));
@@ -99,30 +99,34 @@ public class Bot {
     }
  	
 	//outfit suggestions method (according to the wind)
-	public String outfitWind(String city) throws APIException {
+	public String outfitWind(String city) throws APIException {		
 		cwd = owm.currentWeatherByCityName(city); //current weather object by city name
 		String result = ""; //Variable to store output message
-	    if(cwd.hasWindData() && getTemp(city)>=10) { //if there's wind data
-	    	double wind = cwd.getWindData().getSpeed(); //Get wind speed
-	    	if(wind>=3.4 && wind<5.4) //conditions for the light wind (speed from 3.4 to 5.4 m/s)
-		    	result = "; light windjacket";
-		    else if(wind>=5.4 && wind<7.9 ) //conditions for the moderate wind (speed from 5.4 to 7.9 m/s)
-		    	result = "; windjacket";
-		    else if(wind>=7.9) //conditions for the strong wind (speed from 7.9 m/s)
-		    	result = "; windjacket, fleece/sweatshirt";
-	    }
+		if (cwd.getWindData().getSpeed()!=null) {
+			if(cwd.hasWindData() && getTemp(city)>=10) { //if there's wind data
+		    	double wind = cwd.getWindData().getSpeed(); //Get wind speed
+		    	if(wind>=3.4 && wind<5.4) //conditions for the light wind (speed from 3.4 to 5.4 m/s)
+			    	result = "; light windjacket";
+			    else if(wind>=5.4 && wind<7.9 ) //conditions for the moderate wind (speed from 5.4 to 7.9 m/s)
+			    	result = "; windjacket";
+			    else if(wind>=7.9) //conditions for the strong wind (speed from 7.9 m/s)
+			    	result = "; windjacket, fleece/sweatshirt";
+		    }			
+		}	    
         return result; //returns the result
     }
 	
 	//outfit suggestions method (according to the rain)
 	public String outfitRain(String city) throws APIException {
 		cwd = owm.currentWeatherByCityName(city); //current weather object by city name
-		String result = ""; //Variable to store output message
+		String result = ""; //Variable to store output message		
 		if (cwd.hasRainData()) {
-			double rain = cwd.getRainData().getPrecipVol3h(); //Get wind speed
-		    if(rain>0 && getTemp(city)>=10) {
-		    	result = "; rainjacket/umbrella";
-		    }
+			if (cwd.getRainData().getPrecipVol3h()!=null) {
+				double rain = cwd.getRainData().getPrecipVol3h(); //Get wind speed
+			    if(rain>0 && getTemp(city)>=10) {
+			    	result = "; rainjacket/umbrella";
+			    }
+			}
 		}
         return result; //returns result
     }
@@ -136,9 +140,11 @@ public class Bot {
 		if(cwd.hasCoordData()) { //condition to check if uv data exists
 			lat = cwd.getCoordData().getLatitude(); //assigns the latitude
 			lon = cwd.getCoordData().getLongitude(); //assigns the longitude
-			double uv = owm.currentUVIndexByCoords(lat, lon).getValue(); //assigns the uv index value
-			
-			if(uv>4) //condition if uv is higher than 3
+			double uv = 0;
+			if(owm.currentUVIndexByCoords(lat, lon).getValue()!=null) {
+				uv = owm.currentUVIndexByCoords(lat, lon).getValue(); //assigns the uv index value
+			}
+			if(uv>5) //condition if uv is higher than 3
 				result = "; sunscreen"; //offers to use sunscreen
 		}
         return result; //returns the result
@@ -205,7 +211,41 @@ public class Bot {
 	}
 	
 	//Method to suggest outfit for the temperature forecast
-	public String[] outfitTempForecast(String city, Date period) {
+	public String[] outfitTempForecast(String city, String[] period) throws APIException {
+		
+		wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name	
+		
+		String output="";
+		
+		
+		for (int t=0; t<period.length; t++) {
+			
+			//double temp = this.getTempForecast(city, period);
+			
+			
+			
+		}
+		
+		double temp = this.getTemp(city); //gets current temperature in the chosen city
+		String result = ""; //creates the variable for return statement
+		
+		if (temp <-20) //outfit for temperature below -20 degrees
+			result = "Thick down jacket, sweatshirt/hoodie/sweater, winter hat, gloves, boots, insulated pants";
+		else if(temp>=-20 && temp<-10)  //outfit for temperature between -20 and -10 degrees
+			result ="Down jacket, sweatshirt/hoodie/sweater, winter hat, gloves, boots, insulated pants";
+		else if(temp>=-10 && temp<0)  //outfit for temperature between -10 and 0 degrees
+			result = "Down jacket, sweatshirt/hoodie/sweater, hat, gloves, boots, pants";
+		else if (temp>=0 && temp<10)  //outfit for temperature between 0 and 10 degrees
+			result = "Jacket, sweatshirt/hoodie/sweater, pants, footwear";
+		else if (temp>=10 && temp<15)  //outfit for temperature between 10 and 15 degrees
+			result = "Sweatshirt/hoodie/sweater, pants, footwear";
+		else if (temp>=15 && temp<20)  //outfit for temperature between 15 and 20 degrees
+			result = "Pants/shorts, shirt/t-shirt, footwear";
+		else if (temp>=20)  //outfit for temperature above 20 degrees
+			result = "Shorts, t-shirt, sandals";
+		else //for other outcomes
+			result = "Something went wrong, try again later";
+        //return result; //returns the result
 		return null;
 	}
 		
@@ -245,6 +285,11 @@ public class Bot {
 			inputArray = input.split(" "); //splits user data to array
 		}
 		
+		
+		
+		
+		
+		
 		ArrayList<String> cities = new ArrayList<>(); //creates the arraylist with cities
 		
 		for (int i=0; i<inputArray.length; i++) { //loop that goes through the user data
@@ -255,27 +300,45 @@ public class Bot {
 		}
 		inputData.put("city", cities); //puts the data to the hashmap
 		
+		
+		
+		
+		
+		
+		
 		ArrayList<String> dates = new ArrayList<>(); //creates the arraylist with dates
 		
 		for (int i=0; i<inputArray.length; i++) { //loop that goes through the user data
 			if(inputArray[i].matches("\\b(?:0?[1-9]|[12]\\d|3[01])[-,\\/.](?:0?[1-9]|1[0-2])[-,\\/.](?:\\d{4}|\\d{2})\\b")) { //condition that checks if city with this name exists
-				dates.add(inputArray[i]); //adds start date to the arraylist 
-				
+				dates.add(inputArray[i]); //adds start date to the arraylist 				
 			}
 		}
 		
+		
+		
+		
+		
 		ArrayList<String> startDates = new ArrayList<>(); //creates the arraylist with start dates
 		ArrayList<String> endDates = new ArrayList<>(); //creates the arraylist with end dates
+		boolean forecast=false;		
 		
 		if (input.contains("next") || input.contains("forecast") || input.contains("days")) { //checks if user wants to get results for the upcoming days
 			for (int i=0; i<inputArray.length; i++) { //loops through the data
 				if(inputArray[i].matches("(^|\s+)([1-5])($|\s+)")) { //regex to find the number of days
-					int days = Integer.valueOf(inputArray[i]) ; //casts string to int
+					int days = Integer.valueOf(inputArray[i]) ; //casts string to int					
+					for (int z=0; z<this.forecastDate(days).length; z++) {
+						String d = this.forecastDate(days)[z].toString();						
+						dates.add(d);
+					}
+					forecast = true;					
 				}
 			}
+		}		
+		if (forecast) {
+			startDates.add(dates.get(0));	//puts dates to the corresponding arraylist
+			endDates.add(dates.get(dates.size()-1)); //adds date to the array list
 		}
-		
-		if(dates.size()==inputData.get("city").size()) { //condition for one day forecast for each city
+		else if(dates.size()==inputData.get("city").size()) { //condition for one day forecast for each city
 			for (int i=0; i<dates.size(); i++) { //loop goes through the dates 
 				startDates.add(dates.get(i));	//puts dates to the corresponding arraylist
 			}
@@ -287,11 +350,17 @@ public class Bot {
 				else  //forecast end dates
 					endDates.add(dates.get(i)); //adds date to the array list
 			}
-		}
-		
+		}		
 		//puts data to the hashmap
 		inputData.put("start", startDates); 
 		inputData.put("end", endDates); 
+		
+		
+		
+		
+		
+		
+		
 		
 		ArrayList<String> mode = new ArrayList<>(); //mode for the weather outfits
 		//if city was not recognised
@@ -300,12 +369,12 @@ public class Bot {
 			return null; //returns null
 		}
 		//condition for the multiple days forecast
-		else if (inputData.get("city").size()==inputData.get("start").size() && inputData.get("end").size()==inputData.get("start").size() && inputData.get("city").size()==inputData.get("end").size()) {
+		else if (inputData.get("city").size()==inputData.get("start").size() && inputData.get("end").size()==inputData.get("start").size() && inputData.get("city").size()==inputData.get("end").size() && forecast) {
 			mode.add("period forecast");
 			inputData.put("mode", mode);
 		}
 		//condition for the single day forecast
-		else if (inputData.get("city").size()==inputData.get("start").size() && inputData.get("end").size()==0) {
+		else if (inputData.get("city").size()==inputData.get("start").size() && inputData.get("end").size()==0 && forecast) {
 			mode.add("single forecast");
 			inputData.put("mode", mode); //puts mode
 		}
@@ -313,6 +382,9 @@ public class Bot {
 		else if (inputData.get("city").size()!=0 && inputData.get("start").size()==0 && inputData.get("end").size()==0) {
 			mode.add("current weather");
 			inputData.put("mode", mode); //puts mode
+		}
+		else {
+			System.out.println("Hmmm...I'm confused, can you repeat the request with specified dates?");
 		}
 		
 		return inputData; //returns processed data

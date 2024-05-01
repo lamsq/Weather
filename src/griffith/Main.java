@@ -63,20 +63,34 @@ public class Main {
 	    	
 	    	HashMap<String, ArrayList<String>> data = bot.inputProcessing(choice); //sorted user data
 	    	
+	    	
+	    	
 	    	if(data!=null) {
+	    		
+	    		//System.out.println(data.get("mode").get(0));	//
+		    	//System.out.println(data.get("city").get(0));	//
+		    	
 	    		if (data.get("mode").get(0).equals("current weather")) {
 		    		for (int i=0; i<data.get("city").size(); i++) { //loop through the cities
-			    		System.out.println(bot.outfitCurrentWeather(data.get("city").get(i))); //prints the appropriate outfit
-			    		System.out.println(); 
+			    		System.out.println(bot.outfitCurrentWeather(data.get("city").get(i))+"\n"); //prints the appropriate outfit
 			    	}
 		    		
 		    	} else if (data.get("mode").get(0).equals("single forecast")) {
 		    		
+		    		
+		    		System.out.println(data);
+		    		
 		    		System.out.println("single forecast");
+		    		
 		    	} else if (data.get("mode").get(0).equals("period forecast")){
+		    		
+		    		
+		    		System.out.println();
+		    		
 		    		System.out.println("period forecast");
-		    	} else {
-		    		System.out.println("Specify your request: current weather or forecast?");
+		    		
+		    	} else {		    		
+		    		System.out.println("Specify your request: current weather or forecast?");		    		
 		    	}
 	    		
 	    		
