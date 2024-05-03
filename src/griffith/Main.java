@@ -2,6 +2,7 @@
 package griffith;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -40,7 +41,7 @@ public class Main {
 	    boolean loop = true; //flag for loop condition
 	    
 	    
-//	    HourlyWeatherForecast wfd = owm.hourlyWeatherForecastByCityName("Berlin");
+	    HourlyWeatherForecast wfd = owm.hourlyWeatherForecastByCityName("Berlin");
 //	    
 //	    
 //	    ArrayList<HashMap<String, String>> avgTempData = bot.getTempForecast("Berlin", bot.forecastDate(4));
@@ -56,12 +57,20 @@ public class Main {
 	    
 	    
 	    
+	    
+	    
+	    
+	    
 	    //main loop to process user inputs
 	    while (loop) {
 	    	//Store user input
 	    	String choice = input.nextLine();
 	    	
 	    	HashMap<String, ArrayList<String>> data = bot.inputProcessing(choice); //sorted user data
+	    	
+	    	System.out.println("start dates: "+data.get("start local dates"));
+	    	System.out.println("end dates: "+data.get("end local dates"));
+	    	System.out.println("dates: "+data.get("local dates"));
 	    	
 	    	
 	    	

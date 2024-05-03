@@ -128,7 +128,7 @@ public class TestBot {
 		
 		//Test method with different numbers
 		String output = "Jacket, sweatshirt/hoodie/sweater, pants, footwear";
-		assertEquals(output, bot.outfitTempForecast("Berlin", null));
+		assertEquals(output, bot.outfitTempForecast("Berlin", null, null));
 	}
 	
 	@Test

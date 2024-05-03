@@ -2,6 +2,7 @@ package griffith;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 import net.aksingh.owmjapis.api.APIException;
@@ -159,10 +160,8 @@ public class Bot {
 		for(int i=1; i<=days; i++) { //loop that iterates days times and adds next days to the array
 			LocalDate futureDate = today.plusDays(i); //creates next date
 			forecastDays[i-1] = futureDate; //adds next date
-		}
-		
-		return forecastDays; //returns the array of the next days
-			
+		}		
+		return forecastDays; //returns the array of the next days			
 	}
 	
 	//Getter for the temperature forecast
@@ -211,42 +210,12 @@ public class Bot {
 	}
 	
 	//Method to suggest outfit for the temperature forecast
-	public String[] outfitTempForecast(String city, String[] period) throws APIException {
+	public String[] outfitTempForecast(String city, String start, String end) throws APIException {
 		
-		wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name	
-		
-		String output="";
-		
-		
-		for (int t=0; t<period.length; t++) {
-			
-			//double temp = this.getTempForecast(city, period);
-			
-			
-			
-		}
-		
-		double temp = this.getTemp(city); //gets current temperature in the chosen city
-		String result = ""; //creates the variable for return statement
-		
-		if (temp <-20) //outfit for temperature below -20 degrees
-			result = "Thick down jacket, sweatshirt/hoodie/sweater, winter hat, gloves, boots, insulated pants";
-		else if(temp>=-20 && temp<-10)  //outfit for temperature between -20 and -10 degrees
-			result ="Down jacket, sweatshirt/hoodie/sweater, winter hat, gloves, boots, insulated pants";
-		else if(temp>=-10 && temp<0)  //outfit for temperature between -10 and 0 degrees
-			result = "Down jacket, sweatshirt/hoodie/sweater, hat, gloves, boots, pants";
-		else if (temp>=0 && temp<10)  //outfit for temperature between 0 and 10 degrees
-			result = "Jacket, sweatshirt/hoodie/sweater, pants, footwear";
-		else if (temp>=10 && temp<15)  //outfit for temperature between 10 and 15 degrees
-			result = "Sweatshirt/hoodie/sweater, pants, footwear";
-		else if (temp>=15 && temp<20)  //outfit for temperature between 15 and 20 degrees
-			result = "Pants/shorts, shirt/t-shirt, footwear";
-		else if (temp>=20)  //outfit for temperature above 20 degrees
-			result = "Shorts, t-shirt, sandals";
-		else //for other outcomes
-			result = "Something went wrong, try again later";
-        //return result; //returns the result
 		return null;
+		
+		
+		
 	}
 		
 	//Method to suggest outfit for the cloud forecast
@@ -273,10 +242,8 @@ public class Bot {
 	public HashMap<String, ArrayList<String>> inputProcessing (String input) {
 		
 		//datastructure that will be returned and contains data about the cities and dates for the forecast
-		HashMap<String, ArrayList<String>> inputData = new HashMap<String, ArrayList<String>>();
-		
-		String[] inputArray; //array for the user input
-		
+		HashMap<String, ArrayList<String>> inputData = new HashMap<String, ArrayList<String>>();		
+		String[] inputArray; //array for the user input		
 		if (!input.contains(" ")) { //if input contains only 1 word
 			inputArray = new String[1]; //assigns the new array with 1 element
 			inputArray[0] = input; //sets the element
@@ -286,12 +253,7 @@ public class Bot {
 		}
 		
 		
-		
-		
-		
-		
-		ArrayList<String> cities = new ArrayList<>(); //creates the arraylist with cities
-		
+		ArrayList<String> cities = new ArrayList<>(); //creates the arraylist with cities		
 		for (int i=0; i<inputArray.length; i++) { //loop that goes through the user data
 			if(isCityName(inputArray[i]) && !inputArray[i].equals("days") && !inputArray[i].equals("day"))  //condition that checks if city with this name exists
 				cities.add(inputArray[i]); //adds city to the arraylist
@@ -300,14 +262,7 @@ public class Bot {
 		}
 		inputData.put("city", cities); //puts the data to the hashmap
 		
-		
-		
-		
-		
-		
-		
-		ArrayList<String> dates = new ArrayList<>(); //creates the arraylist with dates
-		
+		ArrayList<String> dates = new ArrayList<>(); //creates the arraylist with dates		
 		for (int i=0; i<inputArray.length; i++) { //loop that goes through the user data
 			if(inputArray[i].matches("\\b(?:0?[1-9]|[12]\\d|3[01])[-,\\/.](?:0?[1-9]|1[0-2])[-,\\/.](?:\\d{4}|\\d{2})\\b")) { //condition that checks if city with this name exists
 				dates.add(inputArray[i]); //adds start date to the arraylist 				
@@ -315,6 +270,87 @@ public class Bot {
 		}
 		
 		
+		ArrayList<String> localDates = new ArrayList<>(); //creates the arraylist with dates in string format		
+		ArrayList<String> startStrLocalDates = new ArrayList<>(); //creates the arraylist with start dates
+		ArrayList<String> endStrLocalDates = new ArrayList<>(); //creates the arraylist with end dates			
+		for (int i=0; i<inputArray.length; i++) { //loop that goes through the user data
+			if(inputArray[i].length()>1 && (inputArray[i].contains(".") || inputArray[i].contains("-") || inputArray[i].contains("/") || inputArray[i].contains("\\") || inputArray[i].contains(","))) { //condition that checks if the string contain special characters
+				String[] dateParts = inputArray[i].split("[-,\\/.]");		 //splits date to day mon aand year		
+				String year =""; //year string format
+				String mon =""; //month string format
+				String day =""; //day string format
+				int yearInt =0; //year integer format
+				int monInt =0; //month integer format
+				int dayInt =0; //day integer format
+				int currentYear = LocalDate.now().getYear(); //current day
+				int currentMon = LocalDate.now().getMonthValue(); //current month
+				int currentDate = LocalDate.now().getDayOfMonth(); //current year					
+				for(int r=0; r<dateParts.length; r++) { //loop that goes through the year month and date
+					try { //try catch block to prevent exceptions in case of incorrect format
+						int temp = Integer.valueOf(dateParts[r]); //parses date to integer
+						if(dateParts[r].length()==4 && temp==currentYear) { //conditions for year
+							//sets year string and integer
+							year = dateParts[r];
+							yearInt = Integer.valueOf(dateParts[r]);
+						} //condition for month
+						else if((temp==currentMon && dayInt!=0) || (temp==currentMon+1 && currentDate<25) || (temp==2 && currentDate<23)){ //condition for month 
+							if(dateParts[r].length()==1) {//if month doesnt have 0 before the date
+								//sets month string and integer variables
+								mon = "0"+dateParts[r];
+								monInt = Integer.valueOf(mon);
+							}
+							else { //if theres 0 before the date
+								//sets month string and integer variables
+								mon = dateParts[r];
+								monInt = Integer.valueOf(dateParts[r]);
+							}
+						}
+						else if (temp<=31){ //condition for date
+							if (dateParts[r].length()==1) { //if date doesnt have 0 before the date
+								//sets string and integer variables
+								day = "0"+dateParts[r];
+								dayInt = Integer.valueOf(day);
+							}
+							else { //if theres 0 before the date
+								//sets string and integer variables
+								day = dateParts[r];
+								dayInt = Integer.valueOf(dateParts[r]);
+							}
+						}
+						else { //if date doesnt fit the requirements
+							System.out.println("Incorrect date format;");
+							return null;
+						}
+					} //in case of incorrect format (catch block)
+					catch (Exception e) {
+						System.out.println("Incorrect date format;");
+						return null;
+					}
+				}
+				//if date suits the requirements for year or year and date
+				if(yearInt == currentYear || (yearInt == currentYear+1 && monInt==12 && dayInt>26)) {							
+					localDates.add((year+"-"+mon+"-"+day));	 //adds the date to the arraylist						
+				} 							
+			}
+		}
+		
+		if(localDates.size()==inputData.get("city").size()) { //condition for one day forecast for each city   inputData.get("city").size()
+			for (int q=0; q<localDates.size(); q++) { //loop goes through the dates  
+				startStrLocalDates.add(localDates.get(q));	//puts dates to the corresponding arraylist
+			}
+		}
+		else { //condition for a few days forecast for each city 
+			for (int q=0; q<localDates.size(); q++) { //loop that goes through dates
+				if(localDates.indexOf(localDates.get(q))%2==0) //forecast start dates
+					startStrLocalDates.add(localDates.get(q)); //adds date to the array list
+				else  //forecast end dates
+					endStrLocalDates.add(localDates.get(q)); //adds date to the array list
+			}
+		}	
+		//puts data to the hashmap
+		inputData.put("start local dates", startStrLocalDates); 
+		inputData.put("end local dates", endStrLocalDates);	
+		inputData.put("local dates", localDates);
 		
 		
 		
@@ -356,12 +392,6 @@ public class Bot {
 		inputData.put("end", endDates); 
 		
 		
-		
-		
-		
-		
-		
-		
 		ArrayList<String> mode = new ArrayList<>(); //mode for the weather outfits
 		//if city was not recognised
 		if (inputData.get("city").size()==0){
@@ -388,6 +418,98 @@ public class Bot {
 		}
 		
 		return inputData; //returns processed data
+	}
+	
+	
+	
+	public HashMap<String, ArrayList<LocalDate>> getLocalDates(ArrayList<String> input){
+		
+//		HashMap<String, ArrayList<LocalDate>> output = new HashMap<String, ArrayList<LocalDate>>();
+//		ArrayList<LocalDate> startLocalDates = new ArrayList<>(); //creates the arraylist with start dates
+//		ArrayList<LocalDate> endLocalDates = new ArrayList<>(); //creates the arraylist with end dates
+//		
+//		ArrayList<LocalDate> localDates = new ArrayList<LocalDate>();
+//		
+//		for (int i=0; i<input.size(); i++) { //loop that goes through the user data			
+//								
+//				String[] dateParts = input.get(i).split("[-,\\/.]");				
+//				String year ="";
+//				String mon ="";
+//				String day ="";
+//				int yearInt =0;
+//				int monInt =0;
+//				int dayInt =0;
+//				int currentYear = LocalDate.now().getYear();
+//				int currentMon = LocalDate.now().getMonthValue();
+//				int currentDate = LocalDate.now().getDayOfMonth();				
+//				
+//				for(int r=0; r<dateParts.length; r++) {
+//					try {
+//						int temp = Integer.valueOf(dateParts[r]);
+//						if(dateParts[r].length()==4 && temp==currentYear) {
+//							year = dateParts[r];
+//							yearInt = Integer.valueOf(dateParts[r]);
+//						}
+//						else if(temp==currentMon || (temp==currentMon+1 && currentDate<25) || (temp==2 && currentDate<23)) {
+//							if(dateParts[r].length()==1) {
+//								mon = "0"+dateParts[r];
+//								monInt = Integer.valueOf(mon);
+//							}
+//							else {
+//								mon = dateParts[r];
+//								monInt = Integer.valueOf(dateParts[r]);
+//							}
+//						}
+//						else if (temp<=31){
+//							if (dateParts[r].length()==1) {
+//								day = "0"+dateParts[r];
+//								dayInt = Integer.valueOf(day);
+//							}
+//							else {
+//								day = dateParts[r];
+//								dayInt = Integer.valueOf(dateParts[r]);
+//							}
+//						}
+//						else {
+//							System.out.println("Incorrect date format;");
+//						}
+//					}
+//					catch (Exception e) {
+//						System.out.println("Incorrect date format;");
+//					}
+//				}				
+//				if(yearInt == currentYear || (yearInt == currentYear+1 && monInt==12 && dayInt>26)) {
+//					
+//					localDates.add(LocalDate.parse(year+"-"+mon+"-"+day));
+//					
+//				} 
+//				
+//				
+//				if(localDates.size()==inputProcessing) { //condition for one day forecast for each city   inputData.get("city").size()
+//					for (int q=0; q<dates.size(); q++) { //loop goes through the dates  
+//						startLocalDates.add(localDates.get(q));	//puts dates to the corresponding arraylist
+//					}
+//				}
+//				else { //condition for a few days forecast for each city 
+//					for (int q=0; q<dates.size(); q++) { //loop that goes through dates
+//						if(localDates.indexOf(strLocalDates.get(q))%2==0) //forecast start dates
+//							startLocalDates.add(strLocalDates.get(q)); //adds date to the array list
+//						else  //forecast end dates
+//							endLocalDates.add(strLocalDates.get(q)); //adds date to the array list
+//					}
+//				}		
+//				//puts data to the hashmap
+//				output.put("start local dates", startLocalDates); 
+//				output.put("end local dates", endLocalDates);
+//				
+//				
+//				
+//			
+//		}
+		
+		
+		return null;
+		
 	}
 	
 	
