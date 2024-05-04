@@ -68,9 +68,9 @@ public class Main {
 	    	
 	    	HashMap<String, ArrayList<String>> data = bot.inputProcessing(choice); //sorted user data
 	    	
-	    	System.out.println("start dates: "+data.get("start local dates"));
-	    	System.out.println("end dates: "+data.get("end local dates"));
-	    	System.out.println("dates: "+data.get("local dates"));
+//	    	System.out.println("start dates: "+data.get("start local dates"));
+//	    	System.out.println("end dates: "+data.get("end local dates"));
+//	    	System.out.println("dates: "+data.get("local dates"));
 	    	
 	    	
 	    	
@@ -86,8 +86,23 @@ public class Main {
 		    		
 		    	} else if (data.get("mode").get(0).equals("single forecast")) {
 		    		
+		    		for (int i=0; i<data.get("city").size(); i++) {	
+		    			
+		    			
+//		    			System.out.println(data.get("city").get(i));
+//		    			System.out.println(data.get("start local dates").get(i));
+//		    			System.out.println(data.get("start").get(i));
+		    			
+//		    			LocalDate[] ld = {LocalDate.parse("2024-05-05"), LocalDate.parse("2024-05-06")};
+//		    			System.out.println("avg temp"+bot.getTempForecast(data.get("city").get(i),ld).get(i).get("avg temp"));
+//		    			System.out.println("date: "+bot.getTempForecast(data.get("city").get(i),ld).get(i).get("date"));
+		    			
+		    			System.out.println(bot.outfitTempForecast(data.get("city").get(i), LocalDate.parse(data.get("start local dates").get(i))));
+		    			
+		    			
+		    			
+		    		}
 		    		
-		    		System.out.println(data);
 		    		
 		    		System.out.println("single forecast");
 		    		
@@ -101,7 +116,6 @@ public class Main {
 		    	} else {		    		
 		    		System.out.println("Specify your request: current weather or forecast?");		    		
 		    	}
-	    		
 	    		
 	    	}
 	    	
