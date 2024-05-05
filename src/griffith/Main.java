@@ -95,8 +95,9 @@ public class Main {
 //		    			System.out.println("avg temp"+bot.getTempForecast(data.get("city").get(i),ld).get(i).get("avg temp"));
 //		    			System.out.println("date: "+bot.getTempForecast(data.get("city").get(i),ld).get(i).get("date"));
 		    			
-		    			System.out.println(bot.outfitTempForecast(data.get("city").get(i), LocalDate.parse(data.get("start local dates").get(i))));
-		    			System.out.println(bot.outfitCloudForecast(data.get("city").get(i), LocalDate.parse(data.get("start local dates").get(i))));
+		    			System.out.print(bot.outfitTempForecast(data.get("city").get(i), LocalDate.parse(data.get("start local dates").get(i))));
+		    			System.out.print(bot.outfitCloudForecast(data.get("city").get(i), LocalDate.parse(data.get("start local dates").get(i))));
+		    			System.out.println(bot.outfitWindForecast(data.get("city").get(i), LocalDate.parse(data.get("start local dates").get(i))));
 		    			
 		    			
 		    			

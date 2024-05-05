@@ -249,10 +249,8 @@ public class Bot {
 	//Method to suggest outfit for the cloud forecast
 	public String outfitCloudForecast(String city, LocalDate date) throws APIException {
 		
-		wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name	
-		
-		ArrayList<HashMap<String, String>> temps = this.getTempForecast(city, new LocalDate[]{date}); //gets temp data for 
-		    
+		wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name			
+		ArrayList<HashMap<String, String>> temps = this.getTempForecast(city, new LocalDate[]{date}); //gets temp data for 		    
 		//sets average, max and min temperatures
 		double temp = Double.valueOf(temps.get(0).get("avg temp"));
 		double maxTemp = Double.valueOf(temps.get(0).get("max temp"));
@@ -273,24 +271,50 @@ public class Bot {
 		
 		String result= ""; //creates the variable for return statement		
 		if(cwd.hasCloudData()) { //if there's cloud data			
-			
-			if (cloud>=20 && cloud<80 && temp>=0) //if clouds more than 80% and temperature equals or above 0
-				result = "; headwear";
+			if (cloud>80 && temp>=0) //if clouds more than 80% and temperature equals or above 0
+				result = "; optional/no headwear";
 			else if (cloud<20 && temp>=0)  //if clouds less than 20% and temperature equals or above 0
 				result = "; headwear, sunglasses";
 			else if (cloud<20 && temp>15)  //if clouds less than 20% and temperature above 15
 				result = "; light headwear, sunglasses";
-			if (cloud>=80 && temp>=0) //if clouds more than 80% and temperature equals or above 0
-				result = "; optional/no headwear";
 		}
 		return result; //returns the result		
 	}
-		
 	
 	
 	//Method to suggest outfit for the wind forecast
-	public String[] outfitWindForecast(String city, Date period) {
-		return null;
+	public String outfitWindForecast(String city, LocalDate date) throws APIException {
+		
+		wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name	
+		ArrayList<HashMap<String, String>> temps = this.getTempForecast(city, new LocalDate[]{date}); //gets temp data for 		    
+		//sets average, max and min temperatures
+		double temp = Double.valueOf(temps.get(0).get("avg temp"));
+		double maxTemp = Double.valueOf(temps.get(0).get("max temp"));
+		double minTemp = Double.valueOf(temps.get(0).get("min temp"));   
+		
+		if(maxTemp-minTemp>5) {	//condition that checks if the difference between max and min temp is more than 5 degrees   		    
+	    	temp = minTemp; //sets temperature as min temperature
+	    }
+		
+		double wind = 0;
+		for(int l=0; l<wfd.getDataList().size(); l++) {			
+			if (wfd.getDataList().get(l).getDateTimeText().contains(date.toString())) {
+				if(wfd.getDataList().get(l).getWindData().getSpeed()!=null && wind<wfd.getDataList().get(l).getWindData().getSpeed()) {
+					wind=wfd.getDataList().get(l).getCloudData().getCloud();
+				}
+			}
+		}
+		
+		String result = ""; //Variable to store output message		
+		if(temp>=10) { //if there's wind data	    	
+	    	if(wind>=3.4 && wind<5.4) //conditions for the light wind (speed from 3.4 to 5.4 m/s)
+		    	result = "; light windjacket";
+		    else if(wind>=5.4 && wind<7.9 ) //conditions for the moderate wind (speed from 5.4 to 7.9 m/s)
+		    	result = "; windjacket";
+		    else if(wind>=7.9) //conditions for the strong wind (speed from 7.9 m/s)
+		    	result = "; windjacket, fleece/sweatshirt";
+	    }			    
+        return result; //returns the result
 	}	
 		
 	//Method to suggest outfit for the rain forecast
