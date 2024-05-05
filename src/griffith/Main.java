@@ -56,9 +56,7 @@ public class Main {
 //	    }
 	    
 	    
-	    
-	    
-	    
+	  
 	    
 	    
 	    //main loop to process user inputs
@@ -98,6 +96,7 @@ public class Main {
 //		    			System.out.println("date: "+bot.getTempForecast(data.get("city").get(i),ld).get(i).get("date"));
 		    			
 		    			System.out.println(bot.outfitTempForecast(data.get("city").get(i), LocalDate.parse(data.get("start local dates").get(i))));
+		    			System.out.println(bot.outfitCloudForecast(data.get("city").get(i), LocalDate.parse(data.get("start local dates").get(i))));
 		    			
 		    			
 		    			
