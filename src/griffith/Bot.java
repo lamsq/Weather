@@ -318,8 +318,32 @@ public class Bot {
 	}	
 		
 	//Method to suggest outfit for the rain forecast
-	public String[] outfitRainForecast(String city, Date period) {
-		return null;
+	public String outfitRainForecast(String city, LocalDate date) throws APIException {
+		
+		wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name	
+		ArrayList<HashMap<String, String>> temps = this.getTempForecast(city, new LocalDate[]{date}); //gets temp data for 		    
+		//sets average, max and min temperatures
+		double temp = Double.valueOf(temps.get(0).get("avg temp"));
+		double maxTemp = Double.valueOf(temps.get(0).get("max temp"));
+		double minTemp = Double.valueOf(temps.get(0).get("min temp")); 		
+		if(maxTemp-minTemp>5) {	//condition that checks if the difference between max and min temp is more than 5 degrees   		    
+	    	temp = minTemp; //sets temperature as min temperature
+	    }		
+		boolean rain = false;
+		for(int l=0; l<wfd.getDataList().size(); l++) {			
+			if (wfd.getDataList().get(l).getDateTimeText().contains(date.toString())) {
+				if(wfd.getDataList().get(9).getWeatherList().get(0).getMainInfo().contains("rain")) {
+					rain=true;
+					break;
+				}
+			}
+		}		
+		
+		String result = ""; //Variable to store output message			
+		if (rain && temp>=10) {			   
+		    result = "; rainjacket/umbrella";		    
+		}		
+        return result; //returns result
 	}	
 	
 	//Method to suggest outfit for the UV forecast
