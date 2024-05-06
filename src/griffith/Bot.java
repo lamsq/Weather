@@ -3,6 +3,7 @@ package griffith;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import net.aksingh.owmjapis.api.APIException;
@@ -164,6 +165,49 @@ public class Bot {
 		return forecastDays; //returns the array of the next days			
 	}
 	
+	//get all suggestions for the current weather
+	public String outfitForecastWeather(String city, LocalDate[] forecastDate) throws APIException {
+		
+		//calls all the methods related to the ourfit for current weather
+		String outfit="The best choice for "+city+":\n";
+		
+		if (forecastDate.length==2) {
+			
+			LocalDate start=forecastDate[0];
+		    LocalDate end=forecastDate[1];		    
+		    LocalDate[] dates = new LocalDate[(int) (start.until(end, ChronoUnit.DAYS)+1)];
+		    
+		    for(int i=0; i<dates.length; i++) {		    	
+		    	dates[i]=start.plusDays(i);		    	
+		    }
+		    
+		    for(int i=0; i<dates.length; i++) {	
+		    	outfit=outfit.concat(dates[i]+": \n");
+		    	outfit=outfit.concat(outfitTempForecast(city, dates[i]));
+				outfit=outfit.concat(outfitCloudForecast(city, dates[i]));
+				outfit=outfit.concat(outfitWindForecast(city, dates[i]));
+				outfit=outfit.concat(outfitRainForecast(city, dates[i]));
+				outfit=outfit.concat(outfitUVForecast(city, dates[i]));
+				outfit=outfit.concat(";\n\n");		    	
+		    }
+		    
+		}
+		else if (forecastDate.length==1){
+			outfit=outfit.concat(forecastDate[0]+": \n");
+			outfit=outfit.concat(outfitTempForecast(city, forecastDate[0]));
+			outfit=outfit.concat(outfitCloudForecast(city, forecastDate[0]));
+			outfit=outfit.concat(outfitWindForecast(city, forecastDate[0]));
+			outfit=outfit.concat(outfitRainForecast(city, forecastDate[0]));
+			outfit=outfit.concat(outfitUVForecast(city, forecastDate[0]));
+			outfit=outfit.concat(";\n");
+		}
+		else {			
+			System.out.println("\nSomething went wrong :(\nTry again...\n");			
+		}		
+		return outfit; //returns the result
+	}	
+	
+	
 	//Getter for the temperature forecast
 	public ArrayList<HashMap<String, String>> getTempForecast(String city, LocalDate[] forecastDate) throws APIException {
 		
@@ -245,7 +289,6 @@ public class Bot {
 		return result;	    		
 	}
 	
-
 	//Method to suggest outfit for the cloud forecast
 	public String outfitCloudForecast(String city, LocalDate date) throws APIException {
 		
@@ -280,7 +323,6 @@ public class Bot {
 		}
 		return result; //returns the result		
 	}
-	
 	
 	//Method to suggest outfit for the wind forecast
 	public String outfitWindForecast(String city, LocalDate date) throws APIException {
@@ -347,8 +389,31 @@ public class Bot {
 	}	
 	
 	//Method to suggest outfit for the UV forecast
-	public String[] outfitUVForecast(String city, Date period) {
-		return null;
+	public String outfitUVForecast(String city, LocalDate date) throws APIException {		
+		
+		wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name			
+		ArrayList<HashMap<String, String>> temps = this.getTempForecast(city, new LocalDate[]{date}); //gets temp data for 		    
+		String result = "";
+		double index = 0;
+		double lat, lon; //initialize variables for city coordinates
+		
+		if (wfd.getCityData().hasCoordData()) {			
+			lat = wfd.getCityData().getCoordData().getLatitude(); //assigns the latitude
+			lon = wfd.getCityData().getCoordData().getLongitude(); //assigns the longitude
+			
+			for (int k=0; k<owm.dailyUVIndexForecastByCoords(lat, lon).size(); k++ ) {				
+				if(((owm.dailyUVIndexForecastByCoords(lat, lon).get(k).getDateTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).toString().contains(date.toString())) {					
+					if(index<owm.dailyUVIndexForecastByCoords(lat, lon).get(k).getValue()) {						
+						index = owm.dailyUVIndexForecastByCoords(lat, lon).get(k).getValue();
+					}					
+				}				
+			}			
+		}	
+		
+		if(index>5) { //condition if uv is higher than 3 
+			result = "; sunscreen"; //offers to use sunscreen
+		}
+        return result; //returns the result
 	}	
 	
 	//method to process user input data for different requests (current/forecast/length of forecast)

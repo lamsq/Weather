@@ -3,8 +3,10 @@ package griffith;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -42,95 +44,41 @@ public class Main {
 	    
 	    
 	    HourlyWeatherForecast wfd = owm.hourlyWeatherForecastByCityName("Berlin");
-//	    
-//	    
-//	    ArrayList<HashMap<String, String>> avgTempData = bot.getTempForecast("Berlin", bot.forecastDate(4));
-//	    for (int t=0; t<avgTempData.size(); t++) {
-//	    	
-//	    	System.out.println(avgTempData.get(t).get("max temp"));
-//	    	System.out.println(avgTempData.get(t).get("max time"));
-//	    	System.out.println(avgTempData.get(t).get("min temp"));
-//	    	System.out.println(avgTempData.get(t).get("min time"));
-//	    	System.out.println(avgTempData.get(t).get("avg temp"));
-//	    	
-//	    }
-	    
-	    
-	    
-	    
+
 	    
 	    
 	    //main loop to process user inputs
 	    while (loop) {
 	    	//Store user input
-	    	String choice = input.nextLine();
-	    	
+	    	String choice = input.nextLine();	    	
 	    	HashMap<String, ArrayList<String>> data = bot.inputProcessing(choice); //sorted user data
 	    	
-//	    	System.out.println("start dates: "+data.get("start local dates"));
-//	    	System.out.println("end dates: "+data.get("end local dates"));
-//	    	System.out.println("dates: "+data.get("local dates"));
-	    	
-	    	
-	    	
-	    	if(data!=null) {
-	    		
-	    		//System.out.println(data.get("mode").get(0));	//
-		    	//System.out.println(data.get("city").get(0));	//
-		    	
+	    	if(data!=null) {	    		
 	    		if (data.get("mode").get(0).equals("current weather")) {
 		    		for (int i=0; i<data.get("city").size(); i++) { //loop through the cities
 			    		System.out.println(bot.outfitCurrentWeather(data.get("city").get(i))+"\n"); //prints the appropriate outfit
-			    	}
-		    		
-		    	} else if (data.get("mode").get(0).equals("single forecast")) {
-		    		
+			    	}		    		
+		    	} else if (data.get("mode").get(0).equals("single forecast")) {		    		
 		    		for (int i=0; i<data.get("city").size(); i++) {	
 		    			
+		    			LocalDate start = LocalDate.parse(data.get("start local dates").get(i));		    			
+		    			LocalDate[] dates = new LocalDate[]{start};		    			
+		    			System.out.println(bot.outfitForecastWeather(data.get("city").get(i), dates));
 		    			
-//		    			System.out.println(data.get("city").get(i));
-//		    			System.out.println(data.get("start local dates").get(i));
-//		    			System.out.println(data.get("start").get(i));
+		    		}	    		
+		    	} else if (data.get("mode").get(0).equals("period forecast")){		    		
+		    		for (int i=0; i<data.get("city").size(); i++) {	
 		    			
-//		    			LocalDate[] ld = {LocalDate.parse("2024-05-05"), LocalDate.parse("2024-05-06")};
-//		    			System.out.println("avg temp"+bot.getTempForecast(data.get("city").get(i),ld).get(i).get("avg temp"));
-//		    			System.out.println("date: "+bot.getTempForecast(data.get("city").get(i),ld).get(i).get("date"));
-		    			
-		    			System.out.print(bot.outfitTempForecast(data.get("city").get(i), LocalDate.parse(data.get("start local dates").get(i))));
-		    			System.out.print(bot.outfitCloudForecast(data.get("city").get(i), LocalDate.parse(data.get("start local dates").get(i))));
-		    			System.out.println(bot.outfitWindForecast(data.get("city").get(i), LocalDate.parse(data.get("start local dates").get(i))));
-		    			
-		    			
-		    			
-		    		}
-		    		
-		    		
-		    		System.out.println("single forecast");
-		    		
-		    	} else if (data.get("mode").get(0).equals("period forecast")){
-		    		
-		    		
-		    		System.out.println();
-		    		
-		    		System.out.println("period forecast");
-		    		
+		    			LocalDate start = LocalDate.parse(data.get("start local dates").get(i));
+		    			LocalDate end = LocalDate.parse(data.get("end local dates").get(i));
+		    			LocalDate[] dates = new LocalDate[]{start, end};		    			
+		    			System.out.println(bot.outfitForecastWeather(data.get("city").get(i), dates));	    			
+		    		}		    		
 		    	} else {		    		
 		    		System.out.println("Specify your request: current weather or forecast?");		    		
-		    	}
-	    		
+		    	}	    		
 	    	}
 	    	
-	    	
-	    	
-	    	
-	    			
-	    	
-	    	
-	    	
-	    	
-      
-      
-      
 	    }
        
     }	
