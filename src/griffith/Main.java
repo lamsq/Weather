@@ -74,6 +74,10 @@ public class Main {
 		    			LocalDate[] dates = new LocalDate[]{start, end};		    			
 		    			System.out.println(bot.outfitForecastWeather(data.get("city").get(i), dates));	    			
 		    		}		    		
+		    	} else if (choice.contains("quit") || choice.contains("exit") || choice.contains("end")) {
+		    		System.out.println("Hope to see you again (*＾▽＾)／");
+		    		break;
+		    		
 		    	} else {		    		
 		    		System.out.println("Specify your request: current weather or forecast?");		    		
 		    	}	    		

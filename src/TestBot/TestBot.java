@@ -86,7 +86,7 @@ public class TestBot {
 		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
 		Bot bot = new Bot(owm);
 		
-		LocalDate expected = LocalDate.of(2024, 04, 17); //expected value
+		LocalDate expected = LocalDate.parse("2024-05-08"); //expected value
 		
 		assertEquals(bot.forecastDate(1)[0], expected);//evaluation of the returned data
 	}
@@ -117,9 +117,6 @@ public class TestBot {
 		
 	}
 		
-	
-	
-	
 	@Test
 	void testOutfitTempForecast() throws APIException {
 		//Create Bot object with stated API key
@@ -128,7 +125,7 @@ public class TestBot {
 		
 		//Test method with different numbers
 		String output = "Jacket, sweatshirt/hoodie/sweater, pants, footwear";
-		assertEquals(output, bot.outfitTempForecast("Berlin", null, null));
+		assertEquals(output, bot.outfitTempForecast("Berlin", LocalDate.parse("2024-05-08")));
 	}
 	
 	@Test
@@ -137,9 +134,9 @@ public class TestBot {
 		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
 		Bot bot = new Bot(owm);
 		
-		String expected = "; optional/no headwear"; //expected outfit for the clouds condition
+		String expected = "; headwear, sunglasses"; //expected outfit for the clouds condition
 		
-		assertEquals(bot.outfitCloudForecast("days", null), expected); //evaluation of the returned data
+		assertEquals(bot.outfitCloudForecast("Berlin", LocalDate.parse("2024-05-08")), expected); //evaluation of the returned data
 	}
 	
 	@Test

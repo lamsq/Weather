@@ -171,17 +171,19 @@ public class Bot {
 		//calls all the methods related to the ourfit for current weather
 		String outfit="The best choice for "+city+":\n";
 		
-		if (forecastDate.length==2) {
-			
+		if (forecastDate.length==2) { //if there are 2 dates (start and end)
+			//creates the array of dates (start - end)
 			LocalDate start=forecastDate[0];
 		    LocalDate end=forecastDate[1];		    
-		    LocalDate[] dates = new LocalDate[(int) (start.until(end, ChronoUnit.DAYS)+1)];
+		    LocalDate[] dates = new LocalDate[(int) (start.until(end, ChronoUnit.DAYS)+1)]; //sets the length of the array
 		    
-		    for(int i=0; i<dates.length; i++) {		    	
-		    	dates[i]=start.plusDays(i);		    	
+		    for(int i=0; i<dates.length; i++) {	//loop that adds dates to the array	    	
+		    	dates[i]=start.plusDays(i);	//sets the dates	     	
 		    }
 		    
+		    //loop through the array 
 		    for(int i=0; i<dates.length; i++) {	
+		    	//methods to get the clothes forecast
 		    	outfit=outfit.concat(dates[i]+": \n");
 		    	outfit=outfit.concat(outfitTempForecast(city, dates[i]));
 				outfit=outfit.concat(outfitCloudForecast(city, dates[i]));
@@ -189,10 +191,11 @@ public class Bot {
 				outfit=outfit.concat(outfitRainForecast(city, dates[i]));
 				outfit=outfit.concat(outfitUVForecast(city, dates[i]));
 				outfit=outfit.concat(";\n\n");		    	
-		    }
-		    
+		    }		    
 		}
+		//if there is one date (single forecast)
 		else if (forecastDate.length==1){
+			//methods to get the clothes forecast
 			outfit=outfit.concat(forecastDate[0]+": \n");
 			outfit=outfit.concat(outfitTempForecast(city, forecastDate[0]));
 			outfit=outfit.concat(outfitCloudForecast(city, forecastDate[0]));
@@ -202,11 +205,10 @@ public class Bot {
 			outfit=outfit.concat(";\n");
 		}
 		else {			
-			System.out.println("\nSomething went wrong :(\nTry again...\n");			
+			outfit="\nSomething went wrong :(\nTry again...\n";			
 		}		
 		return outfit; //returns the result
 	}	
-	
 	
 	//Getter for the temperature forecast
 	public ArrayList<HashMap<String, String>> getTempForecast(String city, LocalDate[] forecastDate) throws APIException {
@@ -257,7 +259,7 @@ public class Bot {
 	public String outfitTempForecast(String city, LocalDate date) throws APIException {
 		
 	    wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name	    
-	    ArrayList<HashMap<String, String>> temps = this.getTempForecast(city, new LocalDate[]{date}); //gets temp data for 
+	    ArrayList<HashMap<String, String>> temps = this.getTempForecast(city, new LocalDate[]{date}); //arraylist of hashmaops to store the temperature data
 	    
 	    //sets average, max and min temperatures
 	    double temp = Double.valueOf(temps.get(0).get("avg temp"));
@@ -293,7 +295,7 @@ public class Bot {
 	public String outfitCloudForecast(String city, LocalDate date) throws APIException {
 		
 		wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name			
-		ArrayList<HashMap<String, String>> temps = this.getTempForecast(city, new LocalDate[]{date}); //gets temp data for 		    
+		ArrayList<HashMap<String, String>> temps = this.getTempForecast(city, new LocalDate[]{date}); //arraylist of hashmaops to store the temperature data	    
 		//sets average, max and min temperatures
 		double temp = Double.valueOf(temps.get(0).get("avg temp"));
 		double maxTemp = Double.valueOf(temps.get(0).get("max temp"));
@@ -303,11 +305,11 @@ public class Bot {
 	    	temp = minTemp; //sets temperature as min temperature
 	    }
 		
-		double cloud = 100;
-		for(int l=0; l<wfd.getDataList().size(); l++) {			
-			if (wfd.getDataList().get(l).getDateTimeText().contains(date.toString())) {
-				if(cloud>wfd.getDataList().get(l).getCloudData().getCloud()) {
-					cloud=wfd.getDataList().get(l).getCloudData().getCloud();
+		double cloud = 100; //initial value
+		for(int l=0; l<wfd.getDataList().size(); l++) {	 //loop that goes through forecast data		
+			if (wfd.getDataList().get(l).getDateTimeText().contains(date.toString())) { //condition for required date
+				if(cloud>wfd.getDataList().get(l).getCloudData().getCloud()) { //if initial value is higher than obtained data
+					cloud=wfd.getDataList().get(l).getCloudData().getCloud(); //reassigns the value
 				}
 			}
 		}
@@ -328,7 +330,7 @@ public class Bot {
 	public String outfitWindForecast(String city, LocalDate date) throws APIException {
 		
 		wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name	
-		ArrayList<HashMap<String, String>> temps = this.getTempForecast(city, new LocalDate[]{date}); //gets temp data for 		    
+		ArrayList<HashMap<String, String>> temps = this.getTempForecast(city, new LocalDate[]{date}); //arraylist of hashmaops to store the temperature data	    
 		//sets average, max and min temperatures
 		double temp = Double.valueOf(temps.get(0).get("avg temp"));
 		double maxTemp = Double.valueOf(temps.get(0).get("max temp"));
@@ -338,11 +340,12 @@ public class Bot {
 	    	temp = minTemp; //sets temperature as min temperature
 	    }
 		
-		double wind = 0;
-		for(int l=0; l<wfd.getDataList().size(); l++) {			
-			if (wfd.getDataList().get(l).getDateTimeText().contains(date.toString())) {
+		double wind = 0; //initial wind value
+		for(int l=0; l<wfd.getDataList().size(); l++) {	 //loop that goes through the data		
+			if (wfd.getDataList().get(l).getDateTimeText().contains(date.toString())) { //condition for required date
+				//condition for wind speed (not null and higher than initial value)
 				if(wfd.getDataList().get(l).getWindData().getSpeed()!=null && wind<wfd.getDataList().get(l).getWindData().getSpeed()) {
-					wind=wfd.getDataList().get(l).getCloudData().getCloud();
+					wind=wfd.getDataList().get(l).getCloudData().getCloud(); //reassigns the value
 				}
 			}
 		}
@@ -363,7 +366,7 @@ public class Bot {
 	public String outfitRainForecast(String city, LocalDate date) throws APIException {
 		
 		wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name	
-		ArrayList<HashMap<String, String>> temps = this.getTempForecast(city, new LocalDate[]{date}); //gets temp data for 		    
+		ArrayList<HashMap<String, String>> temps = this.getTempForecast(city, new LocalDate[]{date}); //arraylist of hashmaops to store the temperature data		    
 		//sets average, max and min temperatures
 		double temp = Double.valueOf(temps.get(0).get("avg temp"));
 		double maxTemp = Double.valueOf(temps.get(0).get("max temp"));
@@ -371,12 +374,12 @@ public class Bot {
 		if(maxTemp-minTemp>5) {	//condition that checks if the difference between max and min temp is more than 5 degrees   		    
 	    	temp = minTemp; //sets temperature as min temperature
 	    }		
-		boolean rain = false;
-		for(int l=0; l<wfd.getDataList().size(); l++) {			
-			if (wfd.getDataList().get(l).getDateTimeText().contains(date.toString())) {
-				if(wfd.getDataList().get(9).getWeatherList().get(0).getMainInfo().contains("rain")) {
-					rain=true;
-					break;
+		boolean rain = false; //initial rain value
+		for(int l=0; l<wfd.getDataList().size(); l++) {	 //loop that goes through the forecast data	
+			if (wfd.getDataList().get(l).getDateTimeText().contains(date.toString())) { //condition for required time
+				if(wfd.getDataList().get(9).getWeatherList().get(0).getMainInfo().contains("rain")) { //condition to check rainy weather
+					rain=true; //toggles the flag
+					break; //breaks the loop
 				}
 			}
 		}		
@@ -392,19 +395,21 @@ public class Bot {
 	public String outfitUVForecast(String city, LocalDate date) throws APIException {		
 		
 		wfd = owm.hourlyWeatherForecastByCityName(city);  //hourly weather forecast object by city name			
-		ArrayList<HashMap<String, String>> temps = this.getTempForecast(city, new LocalDate[]{date}); //gets temp data for 		    
+		ArrayList<HashMap<String, String>> temps = this.getTempForecast(city, new LocalDate[]{date}); //arraylist of hashmaops to store the temperature data		    
 		String result = "";
 		double index = 0;
 		double lat, lon; //initialize variables for city coordinates
 		
-		if (wfd.getCityData().hasCoordData()) {			
+		if (wfd.getCityData().hasCoordData()) {		//if there are city coordinates	
 			lat = wfd.getCityData().getCoordData().getLatitude(); //assigns the latitude
 			lon = wfd.getCityData().getCoordData().getLongitude(); //assigns the longitude
 			
-			for (int k=0; k<owm.dailyUVIndexForecastByCoords(lat, lon).size(); k++ ) {				
-				if(((owm.dailyUVIndexForecastByCoords(lat, lon).get(k).getDateTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).toString().contains(date.toString())) {					
+			for (int k=0; k<owm.dailyUVIndexForecastByCoords(lat, lon).size(); k++ ) {	//loop that goes through the uvindex forecast
+				//condition for the required date
+				if(((owm.dailyUVIndexForecastByCoords(lat, lon).get(k).getDateTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).toString().contains(date.toString())) {
+					//if initial index is less than forecast
 					if(index<owm.dailyUVIndexForecastByCoords(lat, lon).get(k).getValue()) {						
-						index = owm.dailyUVIndexForecastByCoords(lat, lon).get(k).getValue();
+						index = owm.dailyUVIndexForecastByCoords(lat, lon).get(k).getValue(); //reassigns the value
 					}					
 				}				
 			}			
