@@ -40,13 +40,10 @@ public class Main {
 	    		+ "\nJust send me the city name for the current weather or where and when you want to go!\n"); 
 	    System.out.println(intro);
 	    
-	    boolean loop = true; //flag for loop condition
-	    
+	    boolean loop = true; //flag for loop condition	    
 	    
 	    HourlyWeatherForecast wfd = owm.hourlyWeatherForecastByCityName("Berlin");
 
-	    
-	    
 	    //main loop to process user inputs
 	    while (loop) {
 	    	//Store user input

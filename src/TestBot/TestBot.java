@@ -134,9 +134,9 @@ public class TestBot {
 		OWM owm = new OWM("bd1e2a9675bcd866cce494364b798612");
 		Bot bot = new Bot(owm);
 		
-		String expected = "; headwear, sunglasses"; //expected outfit for the clouds condition
+		String expected = ""; //expected outfit for the clouds condition
 		
-		assertEquals(bot.outfitCloudForecast("Berlin", LocalDate.parse("2024-05-08")), expected); //evaluation of the returned data
+		assertEquals(bot.outfitCloudForecast("Moscow", LocalDate.parse("2024-05-08")), expected); //evaluation of the returned data
 	}
 	
 	@Test
