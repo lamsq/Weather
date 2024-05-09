@@ -552,27 +552,47 @@ public class Bot {
 					forecast = true;					
 				}
 			}
-		}		
+		}	
+		else if (input.contains("tomorrow")) {	//if forecast is for next day		
+			String tomorrow =  LocalDate. now(). plusDays(1).toString(); //tomorrow localdate in string format
+			startStrLocalDates.add(tomorrow); //adds the date
+			localDates.add(tomorrow);
+		}
+		inputData.put("start local dates", startStrLocalDates);  //puts the value to the hashmap	
+		inputData.put("local dates", localDates); //puts the value to the hashmap	
+		
 		if (forecast) {
-			startDates.add(dates.get(0));	//puts dates to the corresponding arraylist
+			startDates.add(dates.get(0));
+			startStrLocalDates.add(dates.get(0));//puts dates to the corresponding arraylist
 			endDates.add(dates.get(dates.size()-1)); //adds date to the array list
+			endStrLocalDates.add(dates.get(dates.size()-1));
 		}
 		else if(dates.size()==inputData.get("city").size()) { //condition for one day forecast for each city
 			for (int i=0; i<dates.size(); i++) { //loop goes through the dates 
 				startDates.add(dates.get(i));	//puts dates to the corresponding arraylist
+				startStrLocalDates.add(dates.get(i));
 			}
 		}
 		else { //condition for a few days forecast for each city 
 			for (int i=0; i<dates.size(); i++) { //loop that goes through dates
-				if(dates.indexOf(dates.get(i))%2==0) //forecast start dates
+				if(dates.indexOf(dates.get(i))%2==0) {//forecast start dates
 					startDates.add(dates.get(i)); //adds date to the array list
-				else  //forecast end dates
+					startStrLocalDates.add(dates.get(i));
+				}
+				else { //forecast end dates
 					endDates.add(dates.get(i)); //adds date to the array list
+					endStrLocalDates.add(dates.get(i));
+				}
+				localDates.add(dates.get(i));
 			}
 		}		
 		//puts data to the hashmap
 		inputData.put("start", startDates); 
 		inputData.put("end", endDates); 
+		
+		inputData.put("start local dates", startStrLocalDates); 
+		inputData.put("end local dates", endStrLocalDates);	
+		inputData.put("local dates", localDates);
 		
 		
 		ArrayList<String> mode = new ArrayList<>(); //mode for the weather outfits

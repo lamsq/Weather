@@ -55,7 +55,8 @@ public class Main {
 		    		for (int i=0; i<data.get("city").size(); i++) { //loop through the cities
 			    		System.out.println(bot.outfitCurrentWeather(data.get("city").get(i))+"\n"); //prints the appropriate outfit
 			    	}		    		
-		    	} else if (data.get("mode").get(0).equals("single forecast")) {		    		
+		    	} else if (data.get("mode").get(0).equals("single forecast")) {	
+		    		
 		    		for (int i=0; i<data.get("city").size(); i++) {	
 		    			
 		    			LocalDate start = LocalDate.parse(data.get("start local dates").get(i));		    			
@@ -63,7 +64,8 @@ public class Main {
 		    			System.out.println(bot.outfitForecastWeather(data.get("city").get(i), dates));
 		    			
 		    		}	    		
-		    	} else if (data.get("mode").get(0).equals("period forecast")){		    		
+		    	} else if (data.get("mode").get(0).equals("period forecast")){	
+		    		
 		    		for (int i=0; i<data.get("city").size(); i++) {	
 		    			
 		    			LocalDate start = LocalDate.parse(data.get("start local dates").get(i));
@@ -76,7 +78,7 @@ public class Main {
 		    		break;
 		    		
 		    	} else {		    		
-		    		System.out.println("Specify your request: current weather or forecast?");		    		
+		    		System.out.println("Too much data, can't figure out what you need :(\nTry again;");		    		
 		    	}	    		
 	    	}
 	    	
