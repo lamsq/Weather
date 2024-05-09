@@ -50,36 +50,51 @@ public class Main {
 	    	String choice = input.nextLine();	    	
 	    	HashMap<String, ArrayList<String>> data = bot.inputProcessing(choice); //sorted user data
 	    	
-	    	if(data!=null) {	    		
+	    	if(data!=null) {
+	    		
 	    		if (data.get("mode").get(0).equals("current weather")) {
 		    		for (int i=0; i<data.get("city").size(); i++) { //loop through the cities
 			    		System.out.println(bot.outfitCurrentWeather(data.get("city").get(i))+"\n"); //prints the appropriate outfit
 			    	}		    		
-		    	} else if (data.get("mode").get(0).equals("single forecast")) {	
-		    		
-		    		for (int i=0; i<data.get("city").size(); i++) {	
-		    			
-		    			LocalDate start = LocalDate.parse(data.get("start local dates").get(i));		    			
-		    			LocalDate[] dates = new LocalDate[]{start};		    			
-		    			System.out.println(bot.outfitForecastWeather(data.get("city").get(i), dates));
-		    			
+		    	} 
+	    		
+	    		else if (data.get("mode").get(0).equals("single forecast")) {	//condition for single forecast		    		
+		    		for (int i=0; i<data.get("city").size(); i++) {	//loop through the cities		     			
+		    			LocalDate start = LocalDate.parse(data.get("start local dates").get(i)); //forecast date for each city	    			
+		    			LocalDate[] dates = new LocalDate[]{start};	//array with date to pass it to the method	    			
+		    			System.out.println(bot.outfitForecastWeather(data.get("city").get(i), dates));	//calls forecast method	    			
 		    		}	    		
-		    	} else if (data.get("mode").get(0).equals("period forecast")){	
-		    		
-		    		for (int i=0; i<data.get("city").size(); i++) {	
-		    			
-		    			LocalDate start = LocalDate.parse(data.get("start local dates").get(i));
+		    	} 
+		    	
+		    	else if (data.get("mode").get(0).equals("period forecast")){	//condition for period forecast	    		
+		    		for (int i=0; i<data.get("city").size(); i++) {	//loop through the cities	
+		    			//gets start and end dates for the forecast
+		    			LocalDate start = LocalDate.parse(data.get("start local dates").get(i)); 
 		    			LocalDate end = LocalDate.parse(data.get("end local dates").get(i));
-		    			LocalDate[] dates = new LocalDate[]{start, end};		    			
-		    			System.out.println(bot.outfitForecastWeather(data.get("city").get(i), dates));	    			
+		    			LocalDate[] dates = new LocalDate[]{start, end}; //adds dates to the array		    			
+		    			System.out.println(bot.outfitForecastWeather(data.get("city").get(i), dates));	//calls the forecast method with chosen dates    			
 		    		}		    		
-		    	} else if (choice.contains("quit") || choice.contains("exit") || choice.contains("end")) {
-		    		System.out.println("Hope to see you again (*＾▽＾)／");
-		    		break;
+		    	} 
+		    	
+		    	else if (data.get("mode").get(0).equals("no city")) {		    		
 		    		
-		    	} else {		    		
-		    		System.out.println("Too much data, can't figure out what you need :(\nTry again;");		    		
+		    	} 
+		    	
+		    	else if (data.get("mode").get(0).equals("stop")){
+		    		loop = false; //toggles the flag
+		    		break; //breaks the loop
+		    	}
+	    		
+		    	else if (data.get("mode").get(0).equals("future")){
+		    		continue; //another iteration
+		    	}	
+	    		
+		    	else {		    		
+		    		System.out.println("Too much data, can't figure out what you need :(\nTry again;");	//prints the message	    		
 		    	}	    		
+	    	}
+	    	else {
+	    		continue; //another iteration
 	    	}
 	    	
 	    }

@@ -540,16 +540,20 @@ public class Bot {
 		ArrayList<String> startDates = new ArrayList<>(); //creates the arraylist with start dates
 		ArrayList<String> endDates = new ArrayList<>(); //creates the arraylist with end dates
 		boolean forecast=false;		
+		boolean future = false;
 		
 		if (input.contains("next") || input.contains("forecast") || input.contains("days")) { //checks if user wants to get results for the upcoming days
 			for (int i=0; i<inputArray.length; i++) { //loops through the data
-				if(inputArray[i].matches("(^|\s+)([1-5])($|\s+)")) { //regex to find the number of days
+				if(inputArray[i].matches("(^|\s+)([1-4])($|\s+)")) { //regex to find the number of days
 					int days = Integer.valueOf(inputArray[i]) ; //casts string to int					
 					for (int z=0; z<this.forecastDate(days).length; z++) {
 						String d = this.forecastDate(days)[z].toString();						
-						dates.add(d);
+						dates.add(d); //adds the date
 					}
-					forecast = true;					
+					forecast = true; //toggles the flag					
+				}
+				else {
+					future = true;//toggles the flag		
 				}
 			}
 		}	
@@ -596,26 +600,41 @@ public class Bot {
 		
 		
 		ArrayList<String> mode = new ArrayList<>(); //mode for the weather outfits
-		//if city was not recognised
-		if (inputData.get("city").size()==0){
-			System.out.println("We checked the map, there is no city with this name;"); //prints error message
-			return null; //returns null
+		
+		if (future) {
+			mode.add("future");
+			System.out.println("Too many days to prepare clothes forecast for;\nI can suggest you appropriate clothes for up to 4 days in future!");
 		}
+		
+		if (input.contains("quit") || input.contains("exit") || input.contains("end") || input.contains("bye")) {
+			mode.add("stop");
+			System.out.println("Hope to see you again (*＾▽＾)／");
+		}
+		
 		//condition for the single day forecast
-		else if (inputData.get("city").size()==inputData.get("start").size() && inputData.get("end").size()==0 || (forecast && dates.size()==1)) {
-			mode.add("single forecast");
+		if (((inputData.get("city").size()==inputData.get("start").size() && inputData.get("end").size()==0) || (forecast && dates.size()==1)) && inputData.get("city").size()!=0) {
+			mode.add("single forecast"); //sets the mode
 			inputData.put("mode", mode); //puts mode
 		}
+		
 		//condition for the multiple days forecast
-		else if (inputData.get("city").size()==inputData.get("start").size() && inputData.get("end").size()==inputData.get("start").size() && inputData.get("city").size()==inputData.get("end").size() || (forecast && dates.size()>1)) {
-			mode.add("period forecast");
-			inputData.put("mode", mode);
-		}		
+		else if (((inputData.get("city").size()==inputData.get("start").size() && inputData.get("end").size()==inputData.get("start").size() && inputData.get("city").size()==inputData.get("end").size()) || (forecast && dates.size()>1)) && inputData.get("city").size()!=0) {
+			mode.add("period forecast"); //sets the mode
+			inputData.put("mode", mode); //puts mode
+		}
+		
 		//condition for the current weather
-		else if (inputData.get("city").size()!=0 && inputData.get("start").size()==0 && inputData.get("end").size()==0) {
+		else if ((inputData.get("city").size()!=0 && inputData.get("start").size()==0) && inputData.get("end").size()==0) {
 			mode.add("current weather");
 			inputData.put("mode", mode); //puts mode
 		}
+		
+		else if (inputData.get("city").size()==0){ //if city was not recognised
+			System.out.println("We checked the map, there is no city with this name;"); //prints error message
+			mode.add("no city"); //adds no city mode
+			return null; //returns null	
+		}
+		
 		else {
 			System.out.println("Hmmm...I'm confused, can you repeat the request with specified dates?");
 		}
